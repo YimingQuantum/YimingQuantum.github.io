@@ -112,7 +112,7 @@
           
             <h2 class="title-sub-wrap new-date">
               <span>Updated on </span>
-              <time  class="article-updated" datetime="2023-02-14T14:10:18.966Z" itemprop="dateUpdated">2023-02-14</time>
+              <time  class="article-updated" datetime="2023-02-14T14:44:30.984Z" itemprop="dateUpdated">2023-02-14</time>
             </h2>
           
           
@@ -155,15 +155,15 @@
 </ul>
 <!-- tocstop -->
 
-<h1><span id="1-introduction">1. Introduction</span></h1><p>Although you don’t need to have any knowledge of quantum computing to read this article because it’s the ABC, but I recommend you to read at least the first chapter of the book, <em>Quantum Computing and Quantum Information</em>, written by Michael Nielsen and Isaac Chuang. Besides, there is a good <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.17181">review</a> for those who have even no idea of what quantum mechanics is to achieve a general understanding of quantum computing and its trend of development. </p>
+<h1><span id="1-introduction">1. Introduction</span></h1><p>Although you don’t need to have any knowledge of quantum computing to read this article because it’s the ABC, I recommend you to read at least the first chapter of the book, <em>Quantum Computing and Quantum Information</em>, written by Michael Nielsen and Isaac Chuang. Besides, there is a good <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.17181">review</a> for those who have even no idea of what quantum mechanics is to achieve a general understanding of quantum computing and its trend of development. </p>
 <p>This article is about quantum algorithms, and typically we introduce an algorithm first, then demonstrate it on a fake quantum computer. It’s fake because it’s realized on classical devices. To be specific, we simulate an environment of a (circuit-based) quantum computer on a classical device like your laptop, and use it to perform quantum algorithms. This way to realize quantum algorithms we sometimes call <strong>quantum programming</strong>, even though we are not programming on a real quantum computer. </p>
 <p>The good news is you don’t have to start from scratch to ‘build’ a fake quantum computer by yourself. There has been some mature and powerful framework to do that, and there are two frameworks I recommend:</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://quest.qtechtheory.org/"><strong>QuEST</strong></a>: a C&#x2F;C++ library, initially released in 2019 by a development team in the University of Oxford.</li>
 <li><a target="_blank" rel="noopener" href="https://qiskit.org/"><strong>Qiskit</strong></a>: a Python package, initially released in 2017 by IBM.</li>
 </ul>
-<p>Both of them are open-source and can be used on Linux, Mac OS or Windows. </p>
-<p>I have also tried some other frameworks like CuQuantum (CUDA C&#x2F;C++ based, NVIDIA), Q# (Microsoft), and Cirq (Python based, Google), and I prefer QuEST and Qiskit. Maybe I will write an article to compare these frameworks in the future, but If you are familiar with one of them, it is easy for you to turn to another. </p>
+<p>Both of them are open-source and can be used on Linux, MacOS or Windows. </p>
+<p>I have also tried some other frameworks like CuQuantum (CUDA C&#x2F;C++ based, NVIDIA), Q# (Microsoft), and Cirq (Python based, Google), and I prefer QuEST and Qiskit. Maybe I will write an article to compare these frameworks in the future, but If you are familiar with one of them, it’s easy for you to turn to another. </p>
 <p>For each algorithm I introduce, I will put the corresponding codes with QuEST and Qiskit respectively, so you can choose any framework of the two as you like.</p>
 <p>To download QuEST from the terminal, use the command </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/QuEST-Kit/QuEST.git</span><br></pre></td></tr></table></figure>
@@ -292,14 +292,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/Quantum-Algorithms/">
-            Quantum-Algorithms (1)
+          <a href="/categories/Quantum-Monte-Carlo/">
+            Quantum-Monte-Carlo (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Quantum-Monte-Carlo/">
-            Quantum-Monte-Carlo (1)
+          <a href="/categories/Quantum-Algorithms/">
+            Quantum-Algorithms (1)
           </a>
         </li>
       
