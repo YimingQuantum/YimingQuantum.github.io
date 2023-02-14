@@ -24,7 +24,7 @@
 
   
 
-  <title>test | Q-Grus</title>
+  <title>测试・Test・テスト | Q-Grus</title>
 
   
 
@@ -32,6 +32,10 @@
     <link rel="shortcut icon" href="/favicon.ico">
   
 
+   
+    <!--mathjax latex数学公式显示支持-->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   
 
   
@@ -102,21 +106,26 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">test</h1>
+          <h1 class="title-wrap">测试・Test・テスト</h1>
           <h2 class="title-sub-wrap">
             <span>Posted on </span>
             <time  class="article-date" datetime="2023-02-13T11:44:39.000Z" itemprop="datePublished">2023-02-13</time>
           </h2>
           
+            <h2 class="title-sub-wrap new-date">
+              <span>Updated on </span>
+              <time  class="article-updated" datetime="2023-02-14T03:55:35.208Z" itemprop="dateUpdated">2023-02-14</time>
+            </h2>
+          
           
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/Quantum-Physics/">📒 Quantum Physics</a></li>
+    <li><a href="/categories/Uncategorized/">📒 Uncategorized</a></li>
   
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/Algorithms/">🏷️ Algorithms</a></li>
+    <li><a href="/tags/test/">🏷️ test</a></li>
   
 </ul>
         </div>
@@ -140,16 +149,46 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>Test for codes</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  cout &lt;&lt; <span class="string">&quot;This is the code test.&quot;</span> &lt;&lt; endl;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <!-- toc -->
 
-<p>Test for picture:</p>
+<ul>
+<li><a href="#1-%E6%96%87%E5%AD%97%E6%B5%8B%E8%AF%95">1. 文字测试</a></li>
+<li><a href="#2-%E5%9B%BE%E9%9F%B3%E6%B5%8B%E8%AF%95">2. 图音测试</a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="1-文字测试">1. 文字测试</span></h1><ul>
+<li>中文测试・English test・日本語テスト；</li>
+<li>代码测试:</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  cout &lt;&lt; <span class="string">&quot;Welcome to Q-Grus!&quot;</span> &lt;&lt; endl;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>内嵌代码测<code>int main()</code>试；</p>
+</li>
+<li><p>LaTeX测试：</p>
+</li>
+</ul>
+<p>$$<br>\mathbf{A}\vec{x} &#x3D; \vec{b} \quad \Longleftrightarrow \quad<br>\begin{equation}<br>    \begin{bmatrix} a_{11} &amp; a_{12} \ a_{21} &amp; a_{22} \end{bmatrix}<br>    \begin{bmatrix} x_1 \ x_2 \end{bmatrix} &#x3D;<br>    \begin{bmatrix} b_1 \ b_2 \end{bmatrix}<br>\end{equation}<br>$$</p>
+<p>$$<br>i \hbar \frac{\partial}{\partial t}|\Psi\rangle &#x3D; \hat{H} |\Psi\rangle,\quad \hat{H} &#x3D; \hat{H}^{\dagger}<br>$$</p>
+<ul>
+<li>内嵌LaTeX测$\sqrt{x}$试；</li>
+</ul>
+<h1><span id="2-图音测试">2. 图音测试</span></h1><ul>
+<li><p>图片测试：</p>
 
     <figure class="figure-image">
-      <img src="https://raw.githubusercontent.com/CathanAtaegina/dym.github.io/gh-pages/kawaii.png" alt="Ayaka" loading="lazy" />
-      <figcaption>Ayaka</figcaption>
+      <img src="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/fig_test.jpg" alt="みや姉、「私に天使が舞い降りた！」" loading="lazy">
+      <figcaption>みや姉、「私に天使が舞い降りた！」</figcaption>
     </figure>
   
+
+
+</li>
+<li><p>音频测试：</p>
+</li>
+</ul>
+<div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/dym.github.io/gh-pages/kon.mp3" data-name="わたしの恋はホッチキス" data-artist="放課後ティータイム" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/kon_cover.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/kon.lrc" data-lrctype="3"></div>
 
       </section>
 
@@ -162,8 +201,8 @@
     
     <div class="card-text">
       
-        <a href="/2023/02/13/test2/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">test2</h2>
+        <a href="/2023/02/13/qc-intro/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Quantum algorithms &amp; programming</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -206,25 +245,37 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>4</span>
+        <span>3</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        2
+        1
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
 </svg>
-        1
+        2
       </div>
     </div>
   </div>
 </section>
 
       
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    
+  </div>
+</section>
+
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -251,14 +302,8 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/Quantum-Physics/">
-            Quantum Physics (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/Quantum-Computing/">
-            Quantum Computing (1)
+          <a href="/categories/Uncategorized/">
+            Uncategorized (1)
           </a>
         </li>
       
@@ -275,7 +320,7 @@
   </div>
   <div class="widget-body">
     <div class="tags-cloud">
-      <a href="/tags/Algorithms/" style="font-size: 10px;" class="tags-cloud-0">Algorithms</a>
+      <a href="/tags/Quantum-Algorithms/" style="font-size: 10px;" class="tags-cloud-0">Quantum Algorithms</a> <a href="/tags/test/" style="font-size: 10px;" class="tags-cloud-0">test</a>
     </div>
   </div>
 </section>
@@ -298,6 +343,10 @@
       <a href="javascript:;" id="theme-dark">🌛 Dark</a>
       <a href="javascript:;" id="theme-auto">🤖️ Auto</a>
     </p>
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
   </div>
 </footer>
   </div>
