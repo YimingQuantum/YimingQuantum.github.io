@@ -112,7 +112,7 @@
           
             <h2 class="title-sub-wrap new-date">
               <span>Updated on </span>
-              <time  class="article-updated" datetime="2023-02-15T09:07:53.891Z" itemprop="dateUpdated">2023-02-15</time>
+              <time  class="article-updated" datetime="2023-02-15T11:19:01.635Z" itemprop="dateUpdated">2023-02-15</time>
             </h2>
           
           
@@ -153,6 +153,7 @@
 <li><a href="#1-introduction">1. Introduction</a></li>
 <li><a href="#2-basics-for-quantum-computing">2. Basics for quantum computing</a><ul>
 <li><a href="#21-qubit">2.1 Qubit</a></li>
+<li><a href="#22-measurement">2.2 Measurement</a></li>
 </ul>
 </li>
 <li><a href="#references">References</a></li>
@@ -175,10 +176,20 @@
 <li>Logic circuits and logic gates;</li>
 <li>Time complexity.</li>
 </ul>
-<h1><span id="2-basics-for-quantum-computing">2. Basics for quantum computing</span></h1><h2><span id="21-qubit">2.1 Qubit</span></h2><p>Let’s start with a classical bit.</p>
-<p>$$<br>|0\rangle &#x3D;<br>\begin{bmatrix}<br>1 \\ 0<br>\end{bmatrix}<br>$$</p>
-<p>施工ing， 先听首歌吧</p>
-<div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.mp3" data-name="可愛くてごめん" data-artist="HoneyWorks/早見沙織" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.jpg" data-lrc data-lrctype="3"></div>
+<h1><span id="2-basics-for-quantum-computing">2. Basics for quantum computing</span></h1><h2><span id="21-qubit">2.1 Qubit</span></h2><p>Let’s start with a single classical bit. A classical bit can be either \( 0 \) or \( 1 \). We use a new notation for them, that is \(|0\rangle\) or \(|1\rangle\), and map them to two normalized 2D vectors:</p>
+<p>$$<br>|0\rangle \to \begin{bmatrix} 1 \\ 0 \end{bmatrix},\quad<br>|1\rangle \to \begin{bmatrix} 0 \\ 1 \end{bmatrix}<br>$$</p>
+<p>This mapping makes sense because a classical bit cannot simultaneously be \(|0\rangle\) and \(|1\rangle\), thus mathematically, we let the representations of \(|0\rangle\) and \(|1\rangle\) be orthogonal. </p>
+<p>Under this representation, the NOT gate \( U_N \) can be easily constructed by a \( 2 \times 2\) matrix, i.e. </p>
+<p>$$<br>U_N &#x3D; \begin{bmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix}<br>$$</p>
+<p>It’s easy to check that </p>
+<p>$$<br>U_N |0\rangle &#x3D; |1\rangle,\quad U_N |1\rangle &#x3D; |0\rangle<br>$$</p>
+<p>We’ve just used a special representation for the classical bit and there’s nothing quantum so far.</p>
+<p>Now let’s look at more about the 2D vector. Under the representation above, \(|0\rangle \) and \(|1\rangle \) can exactly compose a set of orthonormal (i.e. orthogonal and normalized) basis of the 2D space. What about other normalized vectors, can we view them as some kind of bit as well? </p>
+<p>The answer is yes and that kind of bit is called a quantum bit, or qubit. For example,</p>
+<p>$$<br>|\psi\rangle &#x3D; \begin{bmatrix} 1&#x2F; \sqrt{2} \\ 1&#x2F; \sqrt{2} \end{bmatrix} &#x3D;<br>\frac{1}{\sqrt{2}} |0\rangle + \frac{1}{\sqrt{2}} |1\rangle<br>$$</p>
+<p>In quantum mechanics, a particle can be a superposition of two or more different states. Here \( |\psi\rangle \) is a superposition of \( |0\rangle \) and  \( |1\rangle \), and this is why \( |\psi\rangle \) is quantum. You may notice that we require the vector representation of a qubit be normalized. This requirement also comes from quantum mechanics, which we will talk in the next section. </p>
+<h2><span id="22-measurement">2.2 Measurement</span></h2><p>施工ing， 先听首歌吧</p>
+<div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.mp3" data-name="可愛くてごめん" data-artist="HoneyWorks/早見沙織" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.lrc" data-lrctype="3"></div>
 
 <h1><span id="references">References</span></h1><p>[1] M. Nielsen, and I. Chuang. Quantum Computation and Quantum Information.10th Anniversary Edition. Cambridge: Cambridge University Press, 2010.</p>
 
