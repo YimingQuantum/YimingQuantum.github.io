@@ -112,7 +112,7 @@
           
             <h2 class="title-sub-wrap new-date">
               <span>Updated on </span>
-              <time  class="article-updated" datetime="2023-02-14T14:44:30.984Z" itemprop="dateUpdated">2023-02-14</time>
+              <time  class="article-updated" datetime="2023-02-15T09:07:53.891Z" itemprop="dateUpdated">2023-02-15</time>
             </h2>
           
           
@@ -151,7 +151,11 @@
 
 <ul>
 <li><a href="#1-introduction">1. Introduction</a></li>
-<li><a href="#2-basics-for-quantum-computing">2. Basics for quantum computing</a></li>
+<li><a href="#2-basics-for-quantum-computing">2. Basics for quantum computing</a><ul>
+<li><a href="#21-qubit">2.1 Qubit</a></li>
+</ul>
+</li>
+<li><a href="#references">References</a></li>
 </ul>
 <!-- tocstop -->
 
@@ -163,16 +167,20 @@
 <li><a target="_blank" rel="noopener" href="https://qiskit.org/"><strong>Qiskit</strong></a>: a Python package, initially released in 2017 by IBM.</li>
 </ul>
 <p>Both of them are open-source and can be used on Linux, MacOS or Windows. </p>
-<p>I have also tried some other frameworks like CuQuantum (CUDA C&#x2F;C++ based, NVIDIA), Q# (Microsoft), and Cirq (Python based, Google), and I prefer QuEST and Qiskit. Maybe I will write an article to compare these frameworks in the future, but If you are familiar with one of them, it’s easy for you to turn to another. </p>
-<p>For each algorithm I introduce, I will put the corresponding codes with QuEST and Qiskit respectively, so you can choose any framework of the two as you like.</p>
-<p>To download QuEST from the terminal, use the command </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/QuEST-Kit/QuEST.git</span><br></pre></td></tr></table></figure>
+<p>I have also tried some other frameworks such as CuQuantum (CUDA C&#x2F;C++ based, NVIDIA), Q# (Microsoft), and Cirq (Python based, Google). Maybe I will write an article to compare these frameworks in the future. However, if you are familiar with one of them, it’s easy for you to turn to another. </p>
+<p>For each algorithm I introduce, I will put the corresponding codes written with QuEST and Qiskit respectively, so you can choose any framework of the two as you like. To download QuEST or Qisikit, please follow the official instructions.</p>
+<p>Attention that this article assumes you are familiar with some concepts in classical computations, including:</p>
+<ul>
+<li>Bit and the binary representation of numbers.</li>
+<li>Logic circuits and logic gates;</li>
+<li>Time complexity.</li>
+</ul>
+<h1><span id="2-basics-for-quantum-computing">2. Basics for quantum computing</span></h1><h2><span id="21-qubit">2.1 Qubit</span></h2><p>Let’s start with a classical bit.</p>
+<p>$$<br>|0\rangle &#x3D;<br>\begin{bmatrix}<br>1 \\ 0<br>\end{bmatrix}<br>$$</p>
+<p>施工ing， 先听首歌吧</p>
+<div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.mp3" data-name="可愛くてごめん" data-artist="HoneyWorks/早見沙織" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.jpg" data-lrc data-lrctype="3"></div>
 
-<p> To install Qiskit from the terminal, use the command</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install qiskit</span><br></pre></td></tr></table></figure>
-
-<p>If you fail with the commands above, please check the official instructions.</p>
-<h1><span id="2-basics-for-quantum-computing">2. Basics for quantum computing</span></h1><p>施工ing……</p>
+<h1><span id="references">References</span></h1><p>[1] M. Nielsen, and I. Chuang. Quantum Computation and Quantum Information.10th Anniversary Edition. Cambridge: Cambridge University Press, 2010.</p>
 
       </section>
 
@@ -292,14 +300,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/Quantum-Monte-Carlo/">
-            Quantum-Monte-Carlo (1)
+          <a href="/categories/Quantum-Algorithms/">
+            Quantum-Algorithms (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Quantum-Algorithms/">
-            Quantum-Algorithms (1)
+          <a href="/categories/Quantum-Monte-Carlo/">
+            Quantum-Monte-Carlo (1)
           </a>
         </li>
       
