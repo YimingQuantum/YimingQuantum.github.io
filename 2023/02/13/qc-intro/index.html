@@ -112,7 +112,7 @@
           
             <h2 class="title-sub-wrap new-date">
               <span>Updated on </span>
-              <time  class="article-updated" datetime="2023-02-20T03:43:22.410Z" itemprop="dateUpdated">2023-02-20</time>
+              <time  class="article-updated" datetime="2023-02-20T06:04:33.372Z" itemprop="dateUpdated">2023-02-20</time>
             </h2>
           
           
@@ -161,7 +161,7 @@
 </ul>
 <!-- tocstop -->
 
-<h1><span id="1-introduction">1. Introduction</span></h1><p>Although you don’t need to have any knowledge of quantum computing to read this article because it’s the ABC, I recommend you to read at least the first chapter of the book, <em>Quantum Computing and Quantum Information</em>, written by Michael Nielsen and Isaac Chuang. Besides, there is a good <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.17181">review</a> for those who have even no idea of what quantum mechanics is to achieve a general understanding of quantum computing and its trend of development. </p>
+<h2><span id="1-introduction">1. Introduction</span></h2><p>Although you don’t need to have any knowledge of quantum computing to read this article because it’s the ABC, I recommend you to read at least the first chapter of the book, <em>Quantum Computing and Quantum Information</em>, written by Michael Nielsen and Isaac Chuang. Besides, there is a good <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.17181">review</a> for those who have even no idea of what quantum mechanics is to achieve a general understanding of quantum computing and its trend of development. </p>
 <p>This article is about quantum algorithms, and typically we introduce an algorithm first, then demonstrate it on a fake quantum computer. It’s fake because it’s realized on classical devices. To be specific, we simulate an environment of a (circuit-based) quantum computer on a classical device like your laptop, and use it to perform quantum algorithms. This way to realize quantum algorithms we sometimes call <strong>quantum programming</strong>, even though we are not programming on a real quantum computer. </p>
 <p>The good news is you don’t have to start from scratch to ‘build’ a fake quantum computer by yourself. There has been some mature and powerful framework to do that, and here are two I recommend:</p>
 <ul>
@@ -177,7 +177,7 @@
 <li>Logic circuits and logic gates;</li>
 <li>Time complexity.</li>
 </ul>
-<h1><span id="2-basics-for-quantum-computing">2. Basics for quantum computing</span></h1><h2><span id="21-qubit">2.1 Qubit</span></h2><p>Let’s start with a single classical bit. A classical bit can be either \( 0 \) or \( 1 \). We use a new notation for them, that is \(|0\rangle\) or \(|1\rangle\), and map them to two normalized 2D vectors:</p>
+<h2><span id="2-basics-for-quantum-computing">2. Basics for quantum computing</span></h2><h3><span id="21-qubit">2.1 Qubit</span></h3><p>Let’s start with a single classical bit. A classical bit can be either \( 0 \) or \( 1 \). We use a new notation for them, that is \(|0\rangle\) or \(|1\rangle\), and map them to two normalized 2D vectors:</p>
 <p>$$<br>|0\rangle \to \begin{bmatrix} 1 \\ 0 \end{bmatrix},\quad<br>|1\rangle \to \begin{bmatrix} 0 \\ 1 \end{bmatrix}<br>$$</p>
 <p>This mapping makes sense because a classical bit cannot simultaneously be \(|0\rangle\) and \(|1\rangle\), thus mathematically, we let the representations of \(|0\rangle\) and \(|1\rangle\) be orthogonal. </p>
 <p>Under this representation, the NOT gate \( U_N \) can be easily constructed by a \( 2 \times 2\) matrix, i.e. </p>
@@ -189,10 +189,10 @@
 <p>The answer is yes and that kind of bit is called a quantum bit, or qubit. For example,</p>
 <p>$$<br>|\psi\rangle &#x3D; \begin{bmatrix} 1&#x2F; \sqrt{2} \\ 1&#x2F; \sqrt{2} \end{bmatrix} &#x3D;<br>\frac{1}{\sqrt{2}} |0\rangle + \frac{1}{\sqrt{2}} |1\rangle<br>$$</p>
 <p>In quantum mechanics, a particle can be a superposition of two or more different states. Here \( |\psi\rangle \) is a superposition of \( |0\rangle \) and  \( |1\rangle \), and this is why \( |\psi\rangle \) is quantum. You may notice that we require the vector representation of a qubit be normalized. This requirement also comes from quantum mechanics, which we will talk in the next section. </p>
-<h2><span id="22-measurement">2.2 Measurement</span></h2><h2><span id="23-quantum-gates">2.3 Quantum Gates</span></h2><p>施工ing， 先听首歌吧</p>
+<h3><span id="22-measurement">2.2 Measurement</span></h3><h3><span id="23-quantum-gates">2.3 Quantum Gates</span></h3><p>施工ing， 先听首歌吧</p>
 <div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.mp3" data-name="可愛くてごめん" data-artist="HoneyWorks/早見沙織" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.lrc" data-lrctype="3"></div>
 
-<h1><span id="references">References</span></h1><p>[1] M. Nielsen, and I. Chuang. Quantum Computation and Quantum Information.10th Anniversary Edition. Cambridge: Cambridge University Press, 2010.</p>
+<h2><span id="references">References</span></h2><p>[1] M. Nielsen, and I. Chuang. Quantum Computation and Quantum Information.10th Anniversary Edition. Cambridge: Cambridge University Press, 2010.</p>
 
       </section>
 
@@ -316,14 +316,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Uncategorized/">
-            Uncategorized (1)
+          <a href="/categories/Quantum-Monte-Carlo/">
+            Quantum-Monte-Carlo (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Quantum-Monte-Carlo/">
-            Quantum-Monte-Carlo (1)
+          <a href="/categories/Uncategorized/">
+            Uncategorized (1)
           </a>
         </li>
       
