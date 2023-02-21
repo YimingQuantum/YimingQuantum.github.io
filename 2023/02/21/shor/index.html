@@ -118,9 +118,9 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/QPE/">🏷️ QPE</a></li>
-  
     <li><a href="/tags/QFT/">🏷️ QFT</a></li>
+  
+    <li><a href="/tags/QPE/">🏷️ QPE</a></li>
   
     <li><a href="/tags/RSA/">🏷️ RSA</a></li>
   
@@ -157,14 +157,16 @@
 <li><a href="#22-reduction">2.2) Reduction</a></li>
 </ul>
 </li>
+<li><a href="#3-performance">3. Performance</a></li>
+<li><a href="#4-example-and-codes">4. Example and codes</a></li>
 </ul>
 <!-- tocstop -->
 
 <h2><span id="1-rsa-encryption">1. RSA encryption</span></h2><p>施工ing………………</p>
 <h2><span id="2-algorithm">2. Algorithm</span></h2><p>Shor’s algorithm is the first quantum algorithm that authentically raised quantum computing to a fairly high position because it can factor an odd composite positive integer in polynomial time, which threatens the RSA encryption fundamentally. </p>
-<p>It can be proved that the factoring problem can reduced to the order-finding problem, therefore we first introduce the quantum algorithm of order-finding, then explain how to realize that reduction. Furthermore, as we’ll see later, the quantum order-finding algorithm is just an application of QPE. </p>
+<p>It can be proved that the factoring problem can reduced to the order-finding problem. We first introduce the quantum algorithm of order-finding, then explain how to realize that reduction. Furthermore, as we’ll see later, the quantum order-finding algorithm is just an application of QPE. </p>
 <p>For those who are not familiar with QPE, click <a href="/2023/02/21/qpe/" title="Quantum Phase Estimation">here</a>.</p>
-<h3><span id="21-order-finding">2.1) Order-finding</span></h3><p>The Order-finding problem is for some given \( x, N\in \mathbb{N^+}\), find the least positive integer \( r\),  s.t.<br>$$<br>x^r &#x3D; 1\ (\text{mod}\ N)<br>$$<br>where \(r\) is called the order of \(x\) modulo \(N\). It can be proved that \( r&lt;N\).</p>
+<h3><span id="21-order-finding">2.1) Order-finding</span></h3><p>The Order-finding problem is that for some given \( x, N\in \mathbb{N^+}\), find the least positive integer \( r\),  s.t.<br>$$<br>x^r &#x3D; 1\ (\text{mod}\ N)<br>$$<br>where \(r\) is called the order of \(x\) modulo \(N\). It can be proved that \( r&lt;N\).</p>
 <p>Here we introduce the operator \( U\) (oracle) to solve the order-finding problem, which satisfies<br>$$<br>U |y\rangle\equiv |xy\ (\text{mod}\ N)\rangle<br>$$<br>for \( y\in[0,N)\) and \( x,y\in\mathbb{N^+}\). Because the input \(y \) we’ll discuss later satisfies \( y&lt;N\), therefore for \( y\ge N\), we require \( U|y\rangle&#x3D;|y\rangle\), which is a trivial operation. Remember again that these are just definitions and the implementation of \( U\) has already been given.</p>
 <p>For<br>$$<br>|u_s\rangle &#x3D; \frac{1}{\sqrt{r}}\sum_{k&#x3D;0}^{r-1}e^{-2\pi isk&#x2F;r} |x^k\ \text{mod }N\rangle<br>$$<br>it can be checked that \( \{|u_s\rangle | s\in\mathbb{N^{+}},\ s\in[0,r)\} \) are the eigenstates of \( U\) since<br>$$<br>\begin{split}<br>U|u_s\rangle &#x3D; &amp;\frac{1}{\sqrt{r}}\sum_{k&#x3D;0}^{r-1}e^{-2\pi isk&#x2F;r} |x^{k+1}\ \text{mod }N\rangle \\<br>&#x3D;&amp;\frac{1}{\sqrt{r}}\sum_{p&#x3D;1}^{r}e^{-2\pi is(p-1)&#x2F;r} |x^p\ \text{mod }N\rangle\\<br>&#x3D;&amp;e^{2\pi is&#x2F;r}\frac{1}{\sqrt{r}}\sum_{p&#x3D;0}^{r-1}e^{-2\pi isp&#x2F;r} |x^p\ \text{mod }N\rangle \\<br>&#x3D;&amp;e^{2\pi is&#x2F;r}|u_s\rangle<br>\end{split}<br>$$<br>where \( p&#x3D;k+1\).</p>
 <p>Our goal is to achieve the value of \( r\), therefore by applying QPE to \( U\) and \( |u_s\rangle\), we can estimate \( r\) for any given accuracy \(t\). Now the problem turns to preparation of \( |u_s\rangle\). Actually, for a specified \(s\), we cannot prepare \( |u_s\rangle\) because that assumes we’ve already known \( r\) in advance. </p>
@@ -175,7 +177,23 @@
 <p>Let’s see how the state changes in each step of the circuit.</p>
 <p>The state is initially prepared as<br>$$<br>\varphi_0 &#x3D; |0\rangle|1\rangle<br>$$</p>
 <p>After implementing \( t \) Hadamard gates to the first register, we get<br>$$<br>\varphi_1 &#x3D; \frac{1}{\sqrt{2^t}} \sum_{j&#x3D;0}^{2^t-1}|j\rangle|1\rangle<br>$$<br>The state before the inverse QFT is<br>$$<br>\begin{split}<br>\varphi_2 &#x3D; &amp; \frac{1}{\sqrt{2^t}} \sum_{j&#x3D;0}^{2^t-1}|j\rangle U^j|1\rangle \\<br>&#x3D; &amp; \frac{1}{\sqrt{2^t}} \sum_{j&#x3D;0}^{2^t-1}|j\rangle<br>\frac{1}{\sqrt{r}}\sum_{s&#x3D;0}^{r-1}e^{2\pi isj&#x2F;r} |u_s\rangle \\<br>&#x3D; &amp; \frac{1}{\sqrt{r2^t}} \sum_{j&#x3D;0}^{2^t-1}<br>\sum_{s&#x3D;0}^{r-1}e^{2\pi isj&#x2F;r}|j\rangle  |u_s\rangle,\qquad [▲]<br>\end{split}<br>$$<br>Since<br>$$<br>\begin{split}<br>U^j|1\rangle &#x3D; &amp; U^j \frac{1}{\sqrt{r}}\sum_{s&#x3D;0}^{r-1}|u_s\rangle \\<br>&#x3D;&amp; \frac{1}{\sqrt{r}}\sum_{s&#x3D;0}^{r-1}e^{2\pi isj&#x2F;r} |u_s\rangle \\<br>&#x3D;&amp; \frac{1}{\sqrt{r}}\sum_{s&#x3D;0}^{r-1}e^{2\pi isj&#x2F;r} \frac{1}{\sqrt{r}}<br>\sum_{p&#x3D;0}^{r-1}e^{-2\pi isp&#x2F;r}|x^p\ \text{mod }N\rangle\\<br>&#x3D;&amp; \frac{1}{r}\sum_{p&#x3D;0}^{r-1}\bigg ( \sum_{s&#x3D;0}^{r-1} e^{-2\pi is(p-j)&#x2F;r}\bigg )|x^p\ \text{mod }N\rangle\\<br>&#x3D;&amp; \frac{1}{r}\sum_{p&#x3D;0}^{r-1}r\delta_{pj} |x^p\ \text{mod }N\rangle \\<br>&#x3D; &amp; |x^j\ \text{mod }N\rangle<br>\end{split}<br>$$<br>\( \varphi_2\) can also be expressed as<br>$$<br>\varphi_2 &#x3D; \frac{1}{\sqrt{2^t}} \sum_{j&#x3D;0}^{2^t-1}|j\rangle |x^j\ \text{mod }N\rangle<br>$$<br>After implementing the inverse QFT to [▲], we get<br>$$<br>\varphi_3 &#x3D; \frac{1}{\sqrt{r}}\sum_{s&#x3D;0}^{r-1}|\tilde{s&#x2F;r}\rangle|u_s\rangle<br>$$<br>In the end, we measure the first register, then we can get the estimation of \( s&#x2F;r\).</p>
-<h3><span id="22-reduction">2.2) Reduction</span></h3><p>Now we explain how to reduce the factoring problem to the order-finding problem.</p>
+<h3><span id="22-reduction">2.2) Reduction</span></h3><p>Suppose</p>
+<ul>
+<li><p>\( N\) is an \(L\)-bit odd composite positive integer, whose prime factorization is<br>$$<br>N &#x3D; p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_m^{\alpha_m}<br>$$</p>
+</li>
+<li><p>\( x \in[1,N)\) is a randomly chosen integer co-prime to \(N\). </p>
+</li>
+<li><p>\(r\) is the order of \(x\) modulo \(N\).</p>
+</li>
+</ul>
+<p>then </p>
+<ul>
+<li><em><strong>(Theorem 1)</strong></em><br>$$<br>\text{prob}\bigg (r\text{ is even and }x^{r&#x2F;2}\neq -1\ (\text{mod }N)\bigg )\ge 1-\frac{1}{2^m}<br>$$</li>
+<li><em><strong>(Theorem 2)</strong></em><br>If \( y\) is a non-trivial solution to the equation<br>$$<br>y^2 &#x3D; 1(\text{ mod }N)<br>$$<br>that is \( y\neq \pm 1(\text{ mod }N)\), then \( \text{gcd}(x-1, N)\) or  \( \text{gcd}(x+1, N)\) is a non-trivial factor of \( N\) and can be computed in \(O(L^3)\) operations.</li>
+</ul>
+<p>In conclusion, if we can achieve the value of \( r\) in polynomial time, we can factor \( N\) in polynomial time with high probability. This is the Shor’s algorithm, or the quantum factoring.</p>
+<h2><span id="3-performance">3. Performance</span></h2><p>施工ing……</p>
+<h2><span id="4-example-and-codes">4. Example and codes</span></h2><p>施工ing……</p>
 
       </section>
 
