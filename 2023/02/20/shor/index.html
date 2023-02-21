@@ -112,7 +112,7 @@
           
             <h2 class="title-sub-wrap new-date">
               <span>Updated on </span>
-              <time  class="article-updated" datetime="2023-02-21T05:26:25.663Z" itemprop="dateUpdated">2023-02-21</time>
+              <time  class="article-updated" datetime="2023-02-21T07:17:32.180Z" itemprop="dateUpdated">2023-02-21</time>
             </h2>
           
           
@@ -189,15 +189,18 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">r1=0:     --/-[H]----■----[invQFT]--[m]</span><br><span class="line">                     |</span><br><span class="line">r2=|u&gt;:   --/-------[Uj]----------------             </span><br></pre></td></tr></table></figure>
 
 <h2><span id="2-shors-algorithm">2. Shor’s algorithm</span></h2><h3><span id="21-rsa-encryption">2.1) RSA encryption</span></h3><p>施工ing………………</p>
-<h3><span id="22-order-finding">2.2) Order-finding</span></h3><p>Order-finding is a important problem in number theory, that is for given \( x, N\in \mathbb{N^+}\), find the least value of \( r\in\mathbb{N^+}\), which is called the order of \(x\) modulo \(N\), s.t.<br>$$<br>x^r &#x3D; 1\ (\text{mod}\ N)<br>$$<br>It can be proved that \( r&lt;N\).</p>
+<h3><span id="22-order-finding">2.2) Order-finding</span></h3><p>Order-finding is a important problem in number theory, that is for given \( x, N\in \mathbb{N^+}\), find the least value of \( r\in\mathbb{N^+}\),  s.t.<br>$$<br>x^r &#x3D; 1\ (\text{mod}\ N)<br>$$<br>\(r\) is called <strong>the order of \(x\) modulo \(N\)</strong>, and it can be proved that \( r&lt;N\).</p>
 <p>To solve the order-finding problem, we introduce the operator \( U\), which satisfies<br>$$<br>U |y\rangle\equiv |xy\ (\text{mod}\ N)\rangle<br>$$<br>for \( y\in[0,N)\) and \( x,y\in\mathbb{N+}\). Because the input \(y \) we’ll discuss later satisfies \( y&lt;N\), so when \( y\ge N\), we require \( U|y\rangle&#x3D;|y\rangle\), which is a trivial operation. Notice again that these are just definitions.</p>
-<p>It can be checked that the eigenstates of \( U\) take the form<br>$$<br>|u_s\rangle &#x3D; \frac{1}{r}\sum_{k&#x3D;0}^{r-1}e^{-2\pi isk&#x2F;r} |x^k\ \text{mod }N\rangle<br>$$<br>since<br>$$<br>\begin{split}<br>U|u_s\rangle &#x3D; &amp;\frac{1}{r}\sum_{k&#x3D;0}^{r-1}e^{-2\pi isk&#x2F;r} |x^{k+1}\ \text{mod }N\rangle \\<br>&#x3D;&amp;\frac{1}{r}\sum_{t&#x3D;1}^{r}e^{-2\pi is(t-1)&#x2F;r} |x^t\ \text{mod }N\rangle\\<br>&#x3D;&amp;e^{2\pi is&#x2F;r}\frac{1}{r}\sum_{t&#x3D;0}^{r-1}e^{-2\pi ist&#x2F;r} |x^t\ \text{mod }N\rangle \\<br>&#x3D;&amp;e^{2\pi is&#x2F;r}|u_s\rangle<br>\end{split}<br>$$<br>where \( t&#x3D;k+1\).</p>
-<p>Our goal is to achieve the value of \( r\), therefore by applying QPE to \( U\) and \( |u_s\rangle\), we can estimate \( r\) for any given accuracy. The idea to solve the order-finding problem is now clear and the problem turns to</p>
+<p>For<br>$$<br>|u_s\rangle &#x3D; \frac{1}{r}\sum_{k&#x3D;0}^{r-1}e^{-2\pi isk&#x2F;r} |x^k\ \text{mod }N\rangle<br>$$<br>it can be checked that \( \{|u_s\rangle | s\in\mathbb{N^{+}},\ s\in[0,r)\} \) are the eigenstates of \( U\) since<br>$$<br>\begin{split}<br>U|u_s\rangle &#x3D; &amp;\frac{1}{r}\sum_{k&#x3D;0}^{r-1}e^{-2\pi isk&#x2F;r} |x^{k+1}\ \text{mod }N\rangle \\<br>&#x3D;&amp;\frac{1}{r}\sum_{t&#x3D;1}^{r}e^{-2\pi is(t-1)&#x2F;r} |x^t\ \text{mod }N\rangle\\<br>&#x3D;&amp;e^{2\pi is&#x2F;r}\frac{1}{r}\sum_{t&#x3D;0}^{r-1}e^{-2\pi ist&#x2F;r} |x^t\ \text{mod }N\rangle \\<br>&#x3D;&amp;e^{2\pi is&#x2F;r}|u_s\rangle<br>\end{split}<br>$$<br>where \( t&#x3D;k+1\).</p>
+<p>Our goal is to achieve the value of \( r\), therefore by applying QPE to \( U\) and \( |u_s\rangle\), we can estimate \( r\) for any given accuracy. Now the problem turns to</p>
 <ul>
-<li>How to implement controlled-\( U^{2^j}\) operations efficiently?</li>
 <li>How to prepare \( |u_s\rangle\)?</li>
+<li>How to implement controlled-\( U^{2^j}\) operations efficiently?</li>
 </ul>
-<h4><span id="221-modular-exponentiation">2.2.1 Modular exponentiation</span></h4>
+<p>For a specified \(s\), we cannot prepare \( |u_s\rangle\) because that assumes we’ve already known \( r\) in advance. </p>
+<p>Notice that<br>$$<br>\begin{split}<br>&amp;\frac{1}{\sqrt{r}}\sum_{s&#x3D;0}^{r-1}|u_s\rangle \\<br>&#x3D; &amp;\frac{1}{r}\sum_{s&#x3D;0}^{r-1}\sum_{k&#x3D;0}^{r-1}e^{-2\pi isk&#x2F;r}|x^k\ \text{mod }N\rangle \\<br>&#x3D; &amp;\frac{1}{r}\sum_{k&#x3D;0}^{r-1}\bigg (<br>\sum_{s&#x3D;0}^{r-1}e^{-2\pi isk&#x2F;r}\bigg )|x^k\ \text{mod }N\rangle \\<br>&#x3D;&amp;\frac{1}{r}\sum_{k&#x3D;0}^{r-1}\delta_{k0}|x^k\ \text{mod }N\rangle \\<br>&#x3D;&amp; |1\rangle<br>\end{split}<br>$$<br>by preparing the state \( |1\rangle\) in the second register of QPE, we can prepare a superposition of all the eigenstates \( \{|u_s\rangle\}\) .</p>
+<h4><span id="221-modular-exponentiation">2.2.1 Modular exponentiation</span></h4><p>A positive integer \(c\) is called a modular exponentiation if its satisfies<br>$$<br>c&#x3D;a^b\ \text{mod }N<br>$$<br>for some \( a,b,N\in\mathbb{N^+}\).</p>
+
       </section>
 
       
