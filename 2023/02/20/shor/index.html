@@ -112,7 +112,7 @@
           
             <h2 class="title-sub-wrap new-date">
               <span>Updated on </span>
-              <time  class="article-updated" datetime="2023-02-21T03:16:36.901Z" itemprop="dateUpdated">2023-02-21</time>
+              <time  class="article-updated" datetime="2023-02-21T05:26:25.663Z" itemprop="dateUpdated">2023-02-21</time>
             </h2>
           
           
@@ -159,8 +159,12 @@
 <li><a href="#12-qpe">1.2) QPE</a></li>
 </ul>
 </li>
-<li><a href="#2-shors-algorithm-quantum-factoring-algorithm">2. Shor’s algorithm (quantum factoring algorithm)</a><ul>
+<li><a href="#2-shors-algorithm">2. Shor’s algorithm</a><ul>
 <li><a href="#21-rsa-encryption">2.1) RSA encryption</a></li>
+<li><a href="#22-order-finding">2.2) Order-finding</a><ul>
+<li><a href="#221-modular-exponentiation">2.2.1 Modular exponentiation</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -176,13 +180,24 @@
 <h3><span id="12-qpe">1.2) QPE</span></h3><p>For<br>$$<br>U|u\rangle &#x3D; u|u\rangle<br>$$<br>where \( U\) is an arbitrary unitary operator (i.e. \( U^{\dagger}&#x3D;U^{-1} \)), it’s easy to prove that \(|u|&#x3D;1 \), so we can write \( u\) as \( e^{2\pi i \omega}\)  for  some \( \omega \in [0, 1) \). The question is, suppose we’ve already have \( |u\rangle \) and we can perform the controlled-\(U^{2^j}\) gate for any postive integer \( j\), then how to achieve the value of \( \omega\)? The quantum algorithm that can estimate the value of \( \omega\) for some given accuracy \( m\) is the so-called <strong>Quantum Phase Estimation (QPE)</strong>.</p>
 <p>To store the estimation of \( \omega\) with accuracy \(m\), we prepare \( m\) qubits in the first register, which are initially set to be \( |0\rangle\). The second register has \( n\) qubits, which stores the eigenvector \( |u\rangle \).</p>
 <p>We first perform the subroutine \( V\):</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">q0=0:     ----[H]------------------ .. ------■-----</span><br><span class="line">               :         :     :    :        :</span><br><span class="line">               :         :     :    :        : </span><br><span class="line">q(m-2)=0: ----[H]--------■-----|--- .. ------|-----</span><br><span class="line">                         |     |             |</span><br><span class="line">q(m-1)=0: ----[H]--■-----|-----|--- .. ------|-----</span><br><span class="line">                   |     |     |             |</span><br><span class="line">r2=|u&gt;:   -------[U0]--[U1]--[U2]-- .. --[U(m-1)]--</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">q0=0:     ----[H]------------------ .. ------■-----</span><br><span class="line">               :         :     :    :        :</span><br><span class="line">               :         :     :    :        : </span><br><span class="line">q(m-2)=0: ----[H]--------■-----|--- .. ------|-----</span><br><span class="line">                         |     |             |</span><br><span class="line">q(m-1)=0: ----[H]--■-----|-----|--- .. ------|-----</span><br><span class="line">                   |     |     |             |</span><br><span class="line">r2=|u&gt;:   --/----[U0]--[U1]--[U2]-- .. --[U(m-1)]--</span><br></pre></td></tr></table></figure>
 <p>where <code>Uj</code> denotes \( U^{2^j}\). The effect of \( V\) on the first register is<br>$$<br>\begin{split}<br>|00\cdots 0\rangle<br>\longrightarrow &amp; \frac{|0\rangle + |1\rangle}{\sqrt{2}} \otimes \frac{|0\rangle + |1\rangle}{\sqrt{2}} \otimes\cdots \frac{|0\rangle + |1\rangle}{\sqrt{2}}\\<br>\longrightarrow &amp;<br>\frac{|0\rangle + e^{2\pi i\omega 2^0} |1\rangle}{\sqrt{2}} \otimes<br>\frac{|0\rangle + e^{2\pi i\omega 2^1} |1\rangle}{\sqrt{2}} \otimes\cdots<br>\frac{|0\rangle + e^{2\pi i\omega 2^{m-1}} |1\rangle}{\sqrt{2}}<br>\equiv\phi<br>\end{split}<br>$$<br>Under the accuracy \( m\), the binary representation of \( \tilde{\omega}\) to estimate \(\omega\) is<br>$$<br>\tilde{\omega} &#x3D; \overline{0.\omega_1\omega_2\cdots\omega_m},\qquad<br>$$<br>then \( \phi\)  can be rewritten as<br>$$<br>\phi &#x3D; \frac{|0\rangle + e^{2\pi i\overline{0.\omega_1\omega_2\cdots\omega_m}} |1\rangle}{\sqrt{2}} \otimes<br>\frac{|0\rangle + e^{2\pi i\overline{0.\omega_2\omega_3\cdots\omega_m}} |1\rangle}{\sqrt{2}} \otimes\cdots<br>\frac{|0\rangle + e^{2\pi i \overline{0.\omega_m}} |1\rangle}{\sqrt{2}}<br>$$<br>which has exactly the same form as [▲▲▲]. Therefore, by applying the inverse QFT to \( \phi \), we can get \( |\tilde{\omega}\rangle \) in the first register.</p>
 <p>The complete quantum circuit of QPE is thus</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">              ┏ - ┓</span><br><span class="line">r1=0:     ----┃   ┃--[invQFT]--[m]</span><br><span class="line">              ┃ V ┃ </span><br><span class="line">r2=|u&gt;:   ----┃   ┃---------------</span><br><span class="line">              └ - ┘</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">              ┏ - ┓</span><br><span class="line">r1=0:     --/-┃   ┃--[invQFT]--[m]</span><br><span class="line">              ┃ V ┃ </span><br><span class="line">r2=|u&gt;:   --/-┃   ┃---------------</span><br><span class="line">              └ - ┘</span><br></pre></td></tr></table></figure>
 
-<h2><span id="2-shors-algorithm-quantum-factoring-algorithm">2. Shor’s algorithm (quantum factoring algorithm)</span></h2><h3><span id="21-rsa-encryption">2.1) RSA encryption</span></h3><p>施工ing………………</p>
+<p>A more common representation of QPE on the quantum circuit is</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">r1=0:     --/-[H]----■----[invQFT]--[m]</span><br><span class="line">                     |</span><br><span class="line">r2=|u&gt;:   --/-------[Uj]----------------             </span><br></pre></td></tr></table></figure>
 
+<h2><span id="2-shors-algorithm">2. Shor’s algorithm</span></h2><h3><span id="21-rsa-encryption">2.1) RSA encryption</span></h3><p>施工ing………………</p>
+<h3><span id="22-order-finding">2.2) Order-finding</span></h3><p>Order-finding is a important problem in number theory, that is for given \( x, N\in \mathbb{N^+}\), find the least value of \( r\in\mathbb{N^+}\), which is called the order of \(x\) modulo \(N\), s.t.<br>$$<br>x^r &#x3D; 1\ (\text{mod}\ N)<br>$$<br>It can be proved that \( r&lt;N\).</p>
+<p>To solve the order-finding problem, we introduce the operator \( U\), which satisfies<br>$$<br>U |y\rangle\equiv |xy\ (\text{mod}\ N)\rangle<br>$$<br>for \( y\in[0,N)\) and \( x,y\in\mathbb{N+}\). Because the input \(y \) we’ll discuss later satisfies \( y&lt;N\), so when \( y\ge N\), we require \( U|y\rangle&#x3D;|y\rangle\), which is a trivial operation. Notice again that these are just definitions.</p>
+<p>It can be checked that the eigenstates of \( U\) take the form<br>$$<br>|u_s\rangle &#x3D; \frac{1}{r}\sum_{k&#x3D;0}^{r-1}e^{-2\pi isk&#x2F;r} |x^k\ \text{mod }N\rangle<br>$$<br>since<br>$$<br>\begin{split}<br>U|u_s\rangle &#x3D; &amp;\frac{1}{r}\sum_{k&#x3D;0}^{r-1}e^{-2\pi isk&#x2F;r} |x^{k+1}\ \text{mod }N\rangle \\<br>&#x3D;&amp;\frac{1}{r}\sum_{t&#x3D;1}^{r}e^{-2\pi is(t-1)&#x2F;r} |x^t\ \text{mod }N\rangle\\<br>&#x3D;&amp;e^{2\pi is&#x2F;r}\frac{1}{r}\sum_{t&#x3D;0}^{r-1}e^{-2\pi ist&#x2F;r} |x^t\ \text{mod }N\rangle \\<br>&#x3D;&amp;e^{2\pi is&#x2F;r}|u_s\rangle<br>\end{split}<br>$$<br>where \( t&#x3D;k+1\).</p>
+<p>Our goal is to achieve the value of \( r\), therefore by applying QPE to \( U\) and \( |u_s\rangle\), we can estimate \( r\) for any given accuracy. The idea to solve the order-finding problem is now clear and the problem turns to</p>
+<ul>
+<li>How to implement controlled-\( U^{2^j}\) operations efficiently?</li>
+<li>How to prepare \( |u_s\rangle\)?</li>
+</ul>
+<h4><span id="221-modular-exponentiation">2.2.1 Modular exponentiation</span></h4>
       </section>
 
       
