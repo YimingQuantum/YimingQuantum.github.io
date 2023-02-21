@@ -24,7 +24,7 @@
 
   
 
-  <title>About | Q-Grus</title>
+  <title>Quantum Phase Estimation | Q-Grus</title>
 
   
 
@@ -32,6 +32,10 @@
     <link rel="shortcut icon" href="/favicon.ico">
   
 
+   
+    <!--mathjax latex数学公式显示支持-->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   
 
   
@@ -47,9 +51,9 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/about/cover.png)"></div>
+    <div class="post-image" style="background-image: url(https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/home/banner_old.png)"></div>
   
 
   <!-- navbar -->
@@ -97,40 +101,118 @@
 
   
   
-
-  
-  
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">About</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">Quantum Phase Estimation</h1>
+          <h2 class="title-sub-wrap">
+            <span>Posted on </span>
+            <time  class="article-date" datetime="2023-02-21T09:49:13.000Z" itemprop="datePublished">2023-02-21</time>
+          </h2>
+          
+          
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/Quantum-Algorithms/">📒 Quantum-Algorithms</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/QPE/">🏷️ QPE</a></li>
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>理論物理学専攻、社会廃人です。</p>
-<p>施工ing……先听首歌吧 (ﾟ▽ﾟ)&#x2F;</p>
-<div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/about/nijika.mp3" data-name="なにが悪い" data-artist="結束バンド" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/about/nijika.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/about/nijika.lrc" data-lrctype="3"></div>
+        <div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/music/suona.mp3" data-name="オオカミと少女" data-artist="鎖那" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/music/suona.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/music/suona.lrc" data-lrctype="3"></div>
 
+<!-- toc -->
 
+<ul>
+<li><a href="#1-algorithm">1. Algorithm</a></li>
+<li><a href="#2-performance">2. Performance</a></li>
+<li><a href="#3-example-and-codes">3. Example and codes</a></li>
+</ul>
+<!-- tocstop -->
+
+<h2><span id="1-algorithm">1. Algorithm</span></h2><p>For<br>$$<br>U|u\rangle &#x3D; u|u\rangle<br>$$<br>where \( U\) is an arbitrary unitary operator (i.e. \( U^{\dagger}&#x3D;U^{-1} \)), it’s easy to prove that \(|u|&#x3D;1 \), so we can write \( u\) as \( e^{2\pi i \omega}\)  for  some \( \omega \in [0, 1) \). The question is, suppose we’ve already have \( |u\rangle \) and we can perform the controlled-\(U^{2^j}\) gate for any postive integer \( j\), then how to achieve the value of \( \omega\)? The quantum algorithm that can estimate the value of \( \omega\) for some given accuracy \( t\) is the so-called <strong>Quantum Phase Estimation (QPE)</strong>.</p>
+<p>To store the estimation of \( \omega\) with accuracy \(t\), we prepare \( t\) qubits in the first register, which are initially set to be \( |0\rangle\). The second register has \( n\) qubits, which stores the eigenvector \( |u\rangle \).</p>
+<p>We first perform the subroutine \( V\):</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">q0=0:     ----[H]------------------ .. ------■-----</span><br><span class="line">               :         :     :    :        :</span><br><span class="line">               :         :     :    :        : </span><br><span class="line">q(t-2)=0: ----[H]--------■-----|--- .. ------|-----</span><br><span class="line">                         |     |             |</span><br><span class="line">q(t-1)=0: ----[H]--■-----|-----|--- .. ------|-----</span><br><span class="line">                   |     |     |             |</span><br><span class="line">r2=|u&gt;:   --/----[A0]--[A1]--[A2]-- .. --[A(t-1)]--</span><br></pre></td></tr></table></figure>
+
+<p>where <code>Aj</code> denotes \( U^{2^j}\). The effect of \( V\) on the first register is<br>$$<br>\begin{split}<br>|00\cdots 0\rangle<br>\longrightarrow &amp; \frac{|0\rangle + |1\rangle}{\sqrt{2}} \otimes \frac{|0\rangle + |1\rangle}{\sqrt{2}} \otimes\cdots \frac{|0\rangle + |1\rangle}{\sqrt{2}}\\<br>\longrightarrow &amp;<br>\frac{|0\rangle + e^{2\pi i\omega 2^0} |1\rangle}{\sqrt{2}} \otimes<br>\frac{|0\rangle + e^{2\pi i\omega 2^1} |1\rangle}{\sqrt{2}} \otimes\cdots<br>\frac{|0\rangle + e^{2\pi i\omega 2^{t-1}} |1\rangle}{\sqrt{2}}  \\<br>&#x3D;&amp; \frac{1}{\sqrt{2^t}}\sum_{j&#x3D;0}^{2^t-2}e^{2\pi i\omega j}|j\rangle<br>\equiv \phi<br>\end{split}<br>$$<br>Therefore, by applying the inverse QFT to \( \phi \), we can get \( |\tilde{\omega}\rangle \) in the first register.</p>
+<p>For each component \(|j\rangle\) in \(\phi\), the sequence of controlled-\( U\) operators in the subroutine \(V\) have the same effect with the following operation<br>$$<br>|j\rangle|u\rangle \to |j\rangle U^{j}|u\rangle,\qquad [▲▲▲]<br>$$<br>so usually, we use the controlled-\( U^j\) operation controlled by the first register with value \(|j\rangle\) to denote that tedious sequence of controlled-\( U\) operations above. Therefore, the quantum circuit for QPE can be expressed as</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">r1=|0&gt;:   --/-[H]----■----[invQFT]--[m]</span><br><span class="line">                     |</span><br><span class="line">r2=|u&gt;:   --/-------[Uj]----------------             </span><br></pre></td></tr></table></figure>
+
+<h2><span id="2-performance">2. Performance</span></h2><h2><span id="3-example-and-codes">3. Example and codes</span></h2>
       </section>
 
       
       
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2023/02/21/shor/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Shor&#39;s Algorithm</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2023/02/20/qft/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Quantum Fourier Transform</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -167,6 +249,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -224,7 +308,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">
