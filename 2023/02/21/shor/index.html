@@ -112,7 +112,7 @@
           
             <h2 class="title-sub-wrap new-date">
               <span>Updated on </span>
-              <time  class="article-updated" datetime="2023-02-22T02:50:03.051Z" itemprop="dateUpdated">2023-02-22</time>
+              <time  class="article-updated" datetime="2023-02-22T07:12:59.109Z" itemprop="dateUpdated">2023-02-22</time>
             </h2>
           
           
@@ -154,19 +154,17 @@
         <!-- toc -->
 
 <ul>
-<li><a href="#1-rsa-encryption">1. RSA encryption</a></li>
-<li><a href="#2-algorithm">2. Algorithm</a><ul>
+<li><a href="#1-algorithm">1. Algorithm</a><ul>
 <li><a href="#21-order-finding">2.1) Order-finding</a></li>
 <li><a href="#22-reduction">2.2) Reduction</a></li>
 </ul>
 </li>
-<li><a href="#3-performance">3. Performance</a></li>
-<li><a href="#4-example-and-codes">4. Example and codes</a></li>
+<li><a href="#2-performance">2. Performance</a></li>
+<li><a href="#3-example-and-codes">3. Example and codes</a></li>
 </ul>
 <!-- tocstop -->
 
-<h2><span id="1-rsa-encryption">1. RSA encryption</span></h2><p>施工ing………………</p>
-<h2><span id="2-algorithm">2. Algorithm</span></h2><p>Shor’s algorithm is the first quantum algorithm that authentically raised quantum computing to a fairly high position because it can factor an odd composite positive integer in polynomial time, which threatens the RSA encryption fundamentally. </p>
+<h2><span id="1-algorithm">1. Algorithm</span></h2><p>Shor’s algorithm is the first quantum algorithm that authentically raised quantum computing to a fairly high position because it can factor an odd composite positive integer in polynomial time, which threatens the RSA encryption fundamentally. </p>
 <p>It can be proved that the factoring problem can reduced to the order-finding problem. We first introduce the quantum algorithm of order-finding, then explain how to realize that reduction. Furthermore, as we’ll see later, the quantum order-finding algorithm is just an application of QPE. </p>
 <p>For those who are not familiar with QPE, click <a href="/2023/02/21/qpe/" title="Quantum Phase Estimation">here</a>.</p>
 <h3><span id="21-order-finding">2.1) Order-finding</span></h3><p>The Order-finding problem is that for some given \( x, N\in \mathbb{N^+}\), find the least positive integer \( r\),  s.t.<br>$$<br>x^r &#x3D; 1\ (\text{mod}\ N)<br>$$<br>where \(r\) is called the order of \(x\) modulo \(N\). It can be proved that \( r&lt;N\).</p>
@@ -196,8 +194,8 @@
 <li><em><strong>(Theorem 2)</strong></em><br>If \( y\) is a non-trivial solution to the equation<br>$$<br>y^2 &#x3D; 1(\text{ mod }N)<br>$$<br>that is \( y\neq \pm 1(\text{ mod }N)\), then \( \text{gcd}(y-1, N)\) or  \( \text{gcd}(y+1, N)\) is a non-trivial factor of \( N\) and can be computed in \(O(L^3)\) operations.</li>
 </ul>
 <p>In conclusion, if we can achieve the value of \( r\) in polynomial time, we can factor \( N\) in polynomial time with high probability. This is the Shor’s algorithm, or the quantum factoring.</p>
-<h2><span id="3-performance">3. Performance</span></h2><p>施工ing……</p>
-<h2><span id="4-example-and-codes">4. Example and codes</span></h2><p>施工ing……先听首歌吧(ﾟ▽ﾟ)&#x2F;</p>
+<h2><span id="2-performance">2. Performance</span></h2><p>施工ing……</p>
+<h2><span id="3-example-and-codes">3. Example and codes</span></h2><p>施工ing……先听首歌吧(ﾟ▽ﾟ)&#x2F;</p>
 <div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/music/kaguya.mp3" data-name="風に吹かれて" data-artist="福原遥" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/music/kaguya.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/music/kaguya.lrc" data-lrctype="3"></div>
       </section>
 
