@@ -24,7 +24,7 @@
 
   
 
-  <title>Quantum Algorithms ABC | Q-Grus</title>
+  <title>Quantum Algorithms for Beginners | Q-Grus</title>
 
   
 
@@ -104,7 +104,7 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Quantum Algorithms ABC</h1>
+          <h1 class="title-wrap">Quantum Algorithms for Beginners</h1>
           <h2 class="title-sub-wrap">
             <span>Posted on </span>
             <time  class="article-date" datetime="2023-02-13T15:36:58.000Z" itemprop="datePublished">2023-02-13</time>
@@ -112,7 +112,7 @@
           
             <h2 class="title-sub-wrap new-date">
               <span>Updated on </span>
-              <time  class="article-updated" datetime="2023-02-21T13:14:22.742Z" itemprop="dateUpdated">2023-02-21</time>
+              <time  class="article-updated" datetime="2023-02-25T12:10:51.110Z" itemprop="dateUpdated">2023-02-25</time>
             </h2>
           
           
@@ -123,7 +123,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/ABC/">🏷️ ABC</a></li>
+    <li><a href="/tags/forBeginners/">🏷️ forBeginners</a></li>
   
 </ul>
         </div>
@@ -151,44 +151,134 @@
 
 <ul>
 <li><a href="#1-introduction">1. Introduction</a></li>
-<li><a href="#2-basics-for-quantum-computing">2. Basics for quantum computing</a><ul>
+<li><a href="#2-basics">2. Basics</a><ul>
 <li><a href="#21-qubit">2.1) Qubit</a></li>
-<li><a href="#22-measurement">2.2) Measurement</a></li>
+<li><a href="#22-quantum-gates-i">2.2) Quantum gates I</a></li>
+<li><a href="#22-quantum-gates-ii">2.2) Quantum gates II</a></li>
+<li><a href="#23-measurements">2.3) Measurements</a></li>
+<li><a href="#24-hello-quantum-world">2.4) “Hello, Quantum World!”</a></li>
+</ul>
+</li>
+<li><a href="#3-deutsch-jozsa-algorithm">3. Deutsch-Jozsa Algorithm</a></li>
+<li><a href="#appendix-frequently-used-quantum-gates">Appendix: Frequently used quantum gates</a><ul>
+<li><a href="#i-one-qubit-gates">i) One-qubit gates</a></li>
+<li><a href="#ii-two-qubit-gates">ii) Two-qubit gates</a></li>
+<li><a href="#iii-three-qubit-gates">iii) Three-qubit gates</a></li>
 </ul>
 </li>
 </ul>
 <!-- tocstop -->
 
-<h2><span id="1-introduction">1. Introduction</span></h2><p>Although you don’t need to have any knowledge of quantum computing to read this article because it’s the ABC, I recommend you to read at least the first chapter of the book, <em>Quantum Computing and Quantum Information</em>, written by Michael Nielsen and Isaac Chuang. Besides, there is a good <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.17181">review</a> for those who have even no idea of what quantum mechanics is to achieve a general understanding of quantum computing and its trend of development. </p>
-<p>This article is about quantum algorithms, and typically we introduce an algorithm first, then demonstrate it on a fake quantum computer. It’s fake because it’s realized on classical devices. To be specific, we simulate an environment of a (circuit-based) quantum computer on a classical device like your laptop, and use it to perform quantum algorithms. This way to realize quantum algorithms we sometimes call <strong>quantum programming</strong>, even though we are not programming on a real quantum computer. </p>
-<p>The good news is you don’t have to start from scratch to ‘build’ a fake quantum computer by yourself. There has been some mature and powerful framework to do that, and here are two I recommend:</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://quest.qtechtheory.org/"><strong>QuEST</strong></a>: a C&#x2F;C++ library, initially released in 2019 by a development team in the University of Oxford.</li>
-<li><a target="_blank" rel="noopener" href="https://qiskit.org/"><strong>Qiskit</strong></a>: a Python package, initially released in 2017 by IBM.</li>
-</ul>
-<p>Both of them are open-source and can be used on Linux, MacOS or Windows. </p>
-<p>I have also tried some other frameworks such as CuQuantum (CUDA C&#x2F;C++ based, NVIDIA), Q# (Microsoft), and Cirq (Python based, Google). Maybe I will write an article to compare these frameworks in the future. However, if you are familiar with one of them, it’s easy for you to turn to another. </p>
-<p>For each algorithm I introduce, I will put the corresponding codes written with QuEST and Qiskit respectively, so you can choose any framework of the two as you like. To download QuEST or Qisikit, please follow the official instructions.</p>
-<p>Attention that this article assumes you are familiar with some concepts in classical computations, including:</p>
+<h2><span id="1-introduction">1. Introduction</span></h2><p>This is an intro to quantum computing and quantum algorithms for those who are not familiar with quantum physics. It’s not necessary but recommended that you should read at least the first chapter of the book, <em>Quantum Computing and Quantum Information</em>, written by Michael Nielsen and Isaac Chuang. Besides, there is a good <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.17181">review</a> that can get you achieve a general understanding of quantum computing and its trend of development. </p>
+<p>The quantum algorithms, as the name suggests, are algorithms based on quantum computing. Since there’s no such a powerful and free universal quantum computer available to us right now, to verify our quantum algorithms, we can utilize a classical device (e.g. your laptop) to simulate an environment of quantum circuits, on which we implement our quantum algorithms. In other words, we program on a fake quantum computer.</p>
+<p>The good news is you don’t have to start from scratch to build that fake quantum computer by yourself. There has been some mature framework to do that, and here are two I recommend:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Framework</th>
+<th align="left">Language</th>
+<th align="left">Developer</th>
+<th align="left">Features</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://quest.qtechtheory.org/"><strong>QuEST</strong></a></td>
+<td align="left">C&#x2F;C++</td>
+<td align="left">Oxon.</td>
+<td align="left">Multithreading, GPU acceleration and distribution</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://qiskit.org/"><strong>Qiskit</strong></a></td>
+<td align="left">Python</td>
+<td align="left">IBM</td>
+<td align="left">Visualization, interface for real quantum computers</td>
+</tr>
+</tbody></table>
+<p>Both of them are open-source and can be used on Linux, MacOS or Windows. To download QuEST or Qisikit, please follow the official instructions.</p>
+<p>If you have a NVIDIA GPU, QuEST is better especially when simulating more than 15 qubits. If you are interested in <strong>Quantum Machine Learning (QML)</strong>, you can use Qiskit as it has the interface to Pytorch. Yet you don’t have to be torn about the choice because it’s easy to switch from one to another. </p>
+<p>Besides, I assume that you have some knowledge of classical computations, including:</p>
 <ul>
 <li>Bit and the binary representation of numbers.</li>
 <li>Logic circuits and logic gates;</li>
 <li>Time complexity.</li>
 </ul>
-<h2><span id="2-basics-for-quantum-computing">2. Basics for quantum computing</span></h2><h3><span id="21-qubit">2.1) Qubit</span></h3><p>Let’s start with a single classical bit. A classical bit can be either \( 0 \) or \( 1 \). We use a new notation for them, that is \(|0\rangle\) or \(|1\rangle\), and map them to two normalized 2D vectors:</p>
+<h2><span id="2-basics">2. Basics</span></h2><h3><span id="21-qubit">2.1) Qubit</span></h3><p>Let’s start with a single classical bit. A classical bit can be either \( 0 \) or \( 1 \). Here, we use a new notation for them, that is \(|0\rangle\) and \(|1\rangle\), then map them to two normalized 2D vectors:</p>
 <p>$$<br>|0\rangle \to \begin{bmatrix} 1 \\ 0 \end{bmatrix},\quad<br>|1\rangle \to \begin{bmatrix} 0 \\ 1 \end{bmatrix}<br>$$</p>
+<ul>
+<li>A vector \( \vec{v}\)  is normalized, if \(|\vec{v}|&#x3D;1 \).</li>
+</ul>
 <p>This mapping makes sense because a classical bit cannot simultaneously be \(|0\rangle\) and \(|1\rangle\), thus mathematically, we let the representations of \(|0\rangle\) and \(|1\rangle\) be orthogonal. </p>
-<p>Under this representation, the NOT gate \( U_N \) can be easily constructed by a \( 2 \times 2\) matrix, i.e. </p>
+<p>Under this representation, the \(\text{NOT}\) gate \( U_N \) can be easily constructed by a \( 2 \times 2\) matrix, i.e. </p>
 <p>$$<br>U_N &#x3D; \begin{bmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix}<br>$$</p>
-<p>It’s easy to check that </p>
+<p>since</p>
 <p>$$<br>U_N |0\rangle &#x3D; |1\rangle,\quad U_N |1\rangle &#x3D; |0\rangle<br>$$</p>
 <p>So far we’ve just used a special representation for the classical bit and there’s nothing quantum.</p>
-<p>Now let’s look at more about the 2D vector. Under the representation above, \(|0\rangle \) and \(|1\rangle \) can exactly compose a set of orthonormal (i.e. orthogonal and normalized) basis of the 2D space, then what about other normalized vectors? Can we view them as some kind of bit as well? </p>
-<p>The answer is yes and that kind of bit is called a quantum bit, or qubit. For example,</p>
-<p>$$<br>|\psi\rangle &#x3D; \begin{bmatrix} 1&#x2F; \sqrt{2} \\ 1&#x2F; \sqrt{2} \end{bmatrix} &#x3D;<br>\frac{1}{\sqrt{2}} |0\rangle + \frac{1}{\sqrt{2}} |1\rangle<br>$$</p>
-<p>In quantum mechanics, a particle can be a superposition of two or more different states. Here \( |\psi\rangle \) is a superposition of \( |0\rangle \) and  \( |1\rangle \), and this is why \( |\psi\rangle \) is quantum. You may notice that we require the vector representation of a qubit be normalized. This requirement also comes from quantum mechanics, which we will talk in the next section. </p>
-<h3><span id="22-measurement">2.2) Measurement</span></h3><p>施工ing……先听首歌吧(ﾟ▽ﾟ)&#x2F;</p>
-<div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.mp3" data-name="可愛くてごめん" data-artist="HoneyWorks/早見沙織" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.lrc" data-lrctype="3"></div>
+<p>You may notice that, under the representation above, \(|0\rangle \) and \(|1\rangle \) can exactly compose a set of orthonormal (i.e. orthogonal and normalized) basis of the 2D space. Then what about other normalized vectors? Can we view them as some kind of bits as well? </p>
+<p>The answer is yes and that kind of bits are the so-called quantum bits, or <strong>qubits</strong>. For example,</p>
+<p>$$<br>|\psi\rangle &#x3D; \begin{bmatrix} \alpha \\ \beta \end{bmatrix} &#x3D;<br>\alpha |0\rangle + \beta |1\rangle<br>$$</p>
+<p>is a qubit, where \( \alpha,\beta\in\mathbb{C}\) and \( |\alpha|^2+|\beta|^2&#x3D;1\).</p>
+<ul>
+<li>A qubit is essentially a quantum state with two energy levels. In the language of quantum mechanics, the plus sign means <strong>superposition</strong>, i.e. \( |\psi\rangle\) is a superposition of \(|0\rangle \) and \(|1\rangle \).</li>
+<li>\( \alpha,\beta\) are complex numbers because the mathematics of quantum mechanics is based on the complex field.</li>
+<li>If we have another qubit \( |\psi’\rangle &#x3D;  e^{i\alpha}|\psi\rangle\), then \( |\psi’\rangle \) and \( |\psi’\rangle \)  represent the same state. The global phase \( e^{i\alpha}\) is permitted in quantum mechanics, and it won’t affect unitary operations and measurements.</li>
+</ul>
+<p>For a system of two qubits, the representation of the quantum state is a tensor product of the two sub-vectors. </p>
+<p>For example, if we have \(   |\psi_1\rangle &#x3D; \alpha_1|0\rangle + \beta_1|1\rangle     \) and \(   |\psi_2\rangle &#x3D; \alpha_2|0\rangle + \beta_2|1\rangle     \), then the quantum state<br>$$<br>|\Psi\rangle &#x3D; |\psi_1\rangle \otimes |\psi_2\rangle &#x3D;<br>\begin{bmatrix} \alpha_1 \\ \beta_1 \end{bmatrix}\otimes<br>\begin{bmatrix} \alpha_2 \\ \beta_2 \end{bmatrix} &#x3D;<br>\begin{bmatrix}<br>\alpha_1\alpha_2 \\ \alpha_1\beta_2  \\<br>\beta_1\alpha_2 \\ \beta_1\beta_2<br>\end{bmatrix}<br>$$</p>
+<ul>
+<li>You may wonder why tensor product here. This is how quantum mechanics describes particles, and you can just take it as an axiom.</li>
+<li>The order of qubits is important in computations. QuEST and Qiskit both use the <strong>Little Endian (LE)</strong> convention, whose details we’ll talk about later.</li>
+</ul>
+<p>Following the same process, we can write the vector representation of a \( 3\)-qubit state<br>$$<br>|\Phi\rangle &#x3D; |\psi_1\rangle \otimes |\psi_2\rangle \otimes |\psi_3\rangle &#x3D;<br>\begin{bmatrix}<br>\alpha_1\alpha_2 \\ \alpha_1\beta_2  \\<br>\beta_1\alpha_2 \\ \beta_1\beta_2<br>\end{bmatrix} \otimes<br>\begin{bmatrix} \alpha_3 \\ \beta_3 \end{bmatrix} &#x3D;<br>\begin{bmatrix}<br>\alpha_1\alpha_2\alpha_3 \\ \alpha_1\alpha_2\beta_3 \\<br>\alpha_1\beta_2\alpha_3 \\ \alpha_1\beta_2\beta_3 \\<br>\beta_1\alpha_2\alpha_3 \\ \beta_1\alpha_2\beta_3 \\<br>\beta_1\beta_2 \alpha_3 \\ \beta_1\beta_2\beta_3<br>\end{bmatrix}<br>$$<br>and  other  \( n\)-qubit states.</p>
+<p>We’ve had the basic units for quantum computing. In the next section, let’s see how to compute with them.</p>
+<h3><span id="22-quantum-gates-i">2.2) Quantum gates I</span></h3><p>In quantum mechanics, the evolution operators of a quantum state must be unitary. Therefore, in quantum computing, the quantum gates acting on qubits are defined as unitary as well.</p>
+<ul>
+<li>A complex matrix \(U \) is unitary, if \( U^{-1}&#x3D;U^{\dagger} \equiv (U^{T})^*\).</li>
+</ul>
+<p>We still start with a single qubit. In the last section, we’ve introduced the NOT gate<br>$$<br>U_N &#x3D; \begin{bmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix}<br>$$<br>which is unitary, and<br>$$<br>U_N|\psi\rangle &#x3D; U_N \big (\alpha|0\rangle+\beta|1\rangle\big ) &#x3D; \alpha|1\rangle + \beta|0\rangle<br>$$<br>In the context of quantum computing, it sounds a little weird if we continue to call it \(\text{NOT}\) gate, and we have a more common name for it.</p>
+<p>Since the <strong>Pauli matrices</strong> are defined as<br>$$<br>\sigma^x \equiv X \equiv \begin{bmatrix}<br>0 &amp; 1 \\<br>1 &amp; 0<br>\end{bmatrix},\quad<br>\sigma^y \equiv Y \equiv \begin{bmatrix}<br>0 &amp; -i \\<br>i &amp; 0<br>\end{bmatrix},\quad<br>\sigma^z \equiv Z \equiv \begin{bmatrix}<br>1 &amp; 0 \\<br>0 &amp; -1<br>\end{bmatrix}<br>$$<br>\(U_N\) is called and replaced by \(\sigma^x \) gate or \(X \) gate.</p>
+<p><strong>Hadamard gate</strong> is another frequently-used one-qubit gate, which is defined as<br>$$<br>H \equiv<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}<br>1 &amp; 1 \\<br>1 &amp; -1<br>\end{bmatrix}<br>$$<br>It’s easy to verified that<br>$$<br>\begin{split}<br>&amp;H|0\rangle &#x3D; \frac{1}{\sqrt{2}}\bigg( |0\rangle + |1\rangle \bigg )\\<br>\end{split}<br>$$<br>If we have two qubits, and perform the \(H\) gate on each of them, we’ll get<br>$$<br>\begin{split}<br>\bigg (H|0\rangle \bigg ) \otimes \bigg (H|0\rangle\bigg ) &#x3D; &amp; \frac{1}{\sqrt{2}}\bigg( |0\rangle + |1\rangle \bigg ) \otimes \frac{1}{\sqrt{2}}\bigg( |0\rangle + |1\rangle \bigg )  \\<br>&#x3D; &amp; \frac{1}{2}\bigg(<br>|0\rangle\otimes|0\rangle + |0\rangle\otimes|1\rangle +<br>|1\rangle\otimes|0\rangle + |1\rangle\otimes|1\rangle<br>\bigg) \\<br>\equiv &amp;<br>\frac{1}{2}\bigg(<br>|0\rangle|0\rangle + |0\rangle|1\rangle +<br>|1\rangle|0\rangle + |1\rangle|1\rangle<br>\bigg)<br>\\<br>\equiv &amp; \frac{1}{2}\bigg(<br>|00\rangle + |01\rangle + |10\rangle + |11\rangle<br>\bigg)<br>\end{split}<br>$$<br>Therefore, if we have \( n\) qubits, after acting Hadamard gate to each of the qubits, we can generate a superposition of all possible states under \(n\) qubits. Since each of the state represents a \( n\)-bit binary number, to store these \(2^n\) integers, we only need \(n\) qubits, which is a exponentially small number compared with the classical bits.</p>
+<ul>
+<li>Though it’s fantastic to store numerous states, it’s not easy to extract or read all the information. As we’ll talk about in <a href="#measure">2.3) Measurements</a>, we can only get one of these \(2^n\)  states each time.</li>
+</ul>
+<p>Now let’s take a look at the visualized version of quantum computing, or <strong>quantum circuits</strong>. Just analogous to a classical circuit, we use each wire to denote one qubit. For example, the circuit </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|0&gt;: ----[H]----[Y]-----■----</span><br><span class="line">                        |</span><br><span class="line">|0&gt;: ------------------[X]----</span><br></pre></td></tr></table></figure>
+<p>includes two qubits that are initially set to be \( |0\rangle\). With gates from left to right, indices from up to down, we first act a Hadamard on the 0th qubit, then a \( Y\) gate. The last gate that involves two qubits is a \(\text{CNOT}\) gate which we’ll introduce in the next section.</p>
+<ul>
+<li>The circuits in my articles are typically ‘drew’ by typing codes, which looks ugly yet convenient. If you take aesthetics seriously, you may draw something like this:
+    <figure class="figure-image">
+      <img src="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/pics/circuit4.png" alt="A more beautiful quantum circuit." loading="lazy">
+      <figcaption>A more beautiful quantum circuit.</figcaption>
+    </figure>
+  </li>
+</ul>
+<h3><span id="22-quantum-gates-ii">2.2) Quantum gates II</span></h3><p>Let’s first take a look at the \( \text{SWAP}\) gate which swap the position of two qubits. </p>
+<p>Suppose  \(   |\psi_1\rangle &#x3D; \alpha_1|0\rangle + \beta_1|1\rangle     \) and \(   |\psi_2\rangle &#x3D; \alpha_2|0\rangle + \beta_2|1\rangle    \), then<br>$$<br>|\Psi\rangle &#x3D; |\psi_1\rangle \otimes |\psi_2\rangle &#x3D;<br>\begin{bmatrix} \alpha_1 \\ \beta_1 \end{bmatrix}\otimes<br>\begin{bmatrix} \alpha_2 \\ \beta_2 \end{bmatrix} &#x3D;<br>\begin{bmatrix}<br>\alpha_1\alpha_2 \\ \alpha_1\beta_2  \\<br>\beta_1\alpha_2 \\ \beta_1\beta_2<br>\end{bmatrix}<br>$$<br>It can be verified that the matrix representation of the \( \text{SWAP}\) gate is<br>$$<br>\text{SWAP} \equiv<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>\end{bmatrix}<br>$$<br>since<br>$$<br>\text{SWAP} |\Psi\rangle &#x3D;<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>\end{bmatrix}<br>\begin{bmatrix}<br>\alpha_1\alpha_2 \\ \alpha_1\beta_2  \\<br>\beta_1\alpha_2 \\ \beta_1\beta_2<br>\end{bmatrix} &#x3D;<br>\begin{bmatrix}<br>\alpha_1\alpha_2 \\ \beta_1\alpha_2 \\<br>\alpha_1\beta_2  \\ \beta_1\beta_2<br>\end{bmatrix} &#x3D;<br>|\psi_2\rangle \otimes |\psi_1\rangle<br>$$</p>
+<p>On a quantum circuit, the \( \text{SWAP}\) gate is depicted as</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|0&gt;: ----x----</span><br><span class="line">         |</span><br><span class="line">|0&gt;: ----x----</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>Another important class of two-qubit gates are the controlled unitary gates. Here we take \(\text{CNOT}\) gate as an example.</p>
+<p>\(\text{CNOT}\) gate involves one controlled qubit and one target qubit. If the controlled qubit equals \( |1\rangle\), perform \( X \) gate (the \(\text{NOT}\) gate) to the target qubit. Otherwise, do nothing.</p>
+<p>The matrix representation of the \(\text{CNOT}\) gate is<br>$$<br>\text{CNOT} \equiv<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>\end{bmatrix}  &#x3D;<br>\begin{bmatrix}<br>I &amp; 0 \\<br>0 &amp; X \\<br>\end{bmatrix},\qquad [▲]<br>$$<br>since<br>$$<br>\text{CNOT}_{j\to k}|0\rangle_j|a\rangle_k &#x3D;<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>\end{bmatrix}<br>\begin{bmatrix}<br>1-a \\<br>a \\<br>0 \\<br>0 \\<br>\end{bmatrix} &#x3D;<br>\begin{bmatrix}<br>1-a \\<br>a \\<br>0 \\<br>0 \\<br>\end{bmatrix}<br>$$</p>
+<p>$$<br>\text{CNOT}_{j\to k}|1\rangle_j|a\rangle_k &#x3D;<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>\end{bmatrix}<br>\begin{bmatrix}<br>0 \\<br>0 \\<br>1-a \\<br>a \\<br>\end{bmatrix} &#x3D;<br>\begin{bmatrix}<br>0 \\<br>0 \\<br>a \\<br>1-a \\<br>\end{bmatrix}<br>$$<br>where \( a\in\{ 0,1\} \) and \( j,k\) denote the indices of qubits. You may notice that we’ve preset the order of qubits when defining [▲]. If we let the \( k\)th qubit to be the controlled qubit, then the matrix representation in  [▲] should be correspondingly changed.</p>
+<p>We have a trick here. Since the circuit with a \(\text{CNOT}\) gate</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|0&gt;: ----[X]----</span><br><span class="line">          |</span><br><span class="line">|0&gt;: -----■-----</span><br></pre></td></tr></table></figure>
+<p>is equivalent to</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|0&gt;: ----x----■-----x----</span><br><span class="line">         |    |     |</span><br><span class="line">|0&gt;: ----x---[X]----x----</span><br></pre></td></tr></table></figure>
+<p>where <code>■</code> denotes the controlled qubit, our new matrix of the \( \text{CNOT}\) gate is thus<br>$$<br>\text{CNOT} &#x3D;<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>\end{bmatrix}<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>\end{bmatrix}<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>\end{bmatrix}  &#x3D;<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>\end{bmatrix}<br>$$</p>
+<p>For a general controlled-\( U\) gate, or \( CU\) gate, it’s easy to check that the matrix representation is<br>$$<br>\text{CU} \equiv<br>\begin{bmatrix}<br>I &amp; 0 \\<br>0 &amp; U \\<br>\end{bmatrix}<br>$$</p>
+<h3><span id="23-measurements">2.3) Measurements</span></h3><p><a id="measure"></a><br>施工ing</p>
+<h3><span id="24-hello-quantum-world">2.4) “Hello, Quantum World!”</span></h3><h2><span id="3-deutsch-jozsa-algorithm">3. Deutsch-Jozsa Algorithm</span></h2><h2><span id="appendix-frequently-used-quantum-gates">Appendix: Frequently used quantum gates</span></h2><h3><span id="i-one-qubit-gates">i) One-qubit gates</span></h3><ol>
+<li><p>Hadamard gate:<br>$$<br>H \equiv<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}<br>1 &amp; 1 \\<br>1 &amp; -1<br>\end{bmatrix}<br>$$</p>
+</li>
+<li><p>Pauli gates:<br>$$<br>X \equiv \begin{bmatrix}<br>0 &amp; 1 \\<br>1 &amp; 0<br>\end{bmatrix},\quad<br>Y \equiv \begin{bmatrix}<br>0 &amp; -i \\<br>i &amp; 0<br>\end{bmatrix},\quad<br>Z \equiv \begin{bmatrix}<br>1 &amp; 0 \\<br>0 &amp; -1<br>\end{bmatrix}<br>$$</p>
+</li>
+<li><p>Rotation gates:<br>$$<br>R_x(\theta) \equiv e^{-iX\theta&#x2F;2} &#x3D; \cos(\frac{\theta}{2})I - i\sin(\frac{\theta}{2})X&#x3D;<br>\begin{bmatrix}<br>\cos(\frac{\theta}{2}) &amp; -i\sin(\frac{\theta}{2}) \\<br>1 &amp; 0<br>\end{bmatrix},\quad<br>$$</p>
+</li>
+</ol>
+<h3><span id="ii-two-qubit-gates">ii) Two-qubit gates</span></h3><h3><span id="iii-three-qubit-gates">iii) Three-qubit gates</span></h3><div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.mp3" data-name="可愛くてごめん" data-artist="HoneyWorks/早見沙織" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.lrc" data-lrctype="3"></div>
 
 
       </section>
@@ -291,7 +381,7 @@
     <span>NOTICE</span>
   </div>
   <div class="widget-body">
-    <p>因为网站暂时部署在github、所以中国大陆的IP可能会出现加载慢和媒体文件无法显示的情况、推荐借助「魔法」访问。</p>
+    <p>因为网站的后台数据暂存在github、所以中国大陆的IP可能会出现加载慢和媒体文件无法显示的情况、推荐先借助「魔法」访问。</p>
   </div>
 </section>
 
@@ -331,7 +421,7 @@
   </div>
   <div class="widget-body">
     <div class="tags-cloud">
-      <a href="/tags/ABC/" style="font-size: 10px;" class="tags-cloud-0">ABC</a> <a href="/tags/QFT/" style="font-size: 20px;" class="tags-cloud-10">QFT</a> <a href="/tags/QPE/" style="font-size: 15px;" class="tags-cloud-5">QPE</a> <a href="/tags/RSA/" style="font-size: 10px;" class="tags-cloud-0">RSA</a>
+      <a href="/tags/QFT/" style="font-size: 20px;" class="tags-cloud-10">QFT</a> <a href="/tags/QPE/" style="font-size: 15px;" class="tags-cloud-5">QPE</a> <a href="/tags/RSA/" style="font-size: 10px;" class="tags-cloud-0">RSA</a> <a href="/tags/forBeginners/" style="font-size: 10px;" class="tags-cloud-0">forBeginners</a>
     </div>
   </div>
 </section>
