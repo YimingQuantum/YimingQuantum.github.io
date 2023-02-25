@@ -39,14 +39,12 @@
   
 
   
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
-  
 
   
 <link rel="stylesheet" href="/css/style.css">
 
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 <body>
   <div class="root-container">
     
@@ -118,9 +116,9 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/QFT/">🏷️ QFT</a></li>
-  
     <li><a href="/tags/QPE/">🏷️ QPE</a></li>
+  
+    <li><a href="/tags/QFT/">🏷️ QFT</a></li>
   
 </ul>
         </div>
@@ -158,12 +156,21 @@
 <p>For those who are not familiar with QFT, click <a href="/2023/02/20/qft/" title="Quantum Fourier Transform">here</a>.</p>
 <p>To store the estimation of \( \omega\) with accuracy \(t\), we prepare \( t\) qubits in the first register, which are initially set to be \( |0\rangle\). The second register has \( n\) qubits, which stores the eigenvector \( |u\rangle \).</p>
 <p>We first perform the subroutine \( V\):</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">q0=0:     ----[H]------------------ .. ------■-----</span><br><span class="line">               :         :     :    :        :</span><br><span class="line">               :         :     :    :        : </span><br><span class="line">q(t-2)=0: ----[H]--------■-----|--- .. ------|-----</span><br><span class="line">                         |     |             |</span><br><span class="line">q(t-1)=0: ----[H]--■-----|-----|--- .. ------|-----</span><br><span class="line">                   |     |     |             |</span><br><span class="line">r2=|u&gt;:   --/----[A0]--[A1]--[A2]-- .. --[A(t-1)]--</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-bash"><code class="language-bash">q0<span class="token operator">=</span>0:     ----<span class="token punctuation">[</span>H<span class="token punctuation">]</span>------------------ <span class="token punctuation">..</span> ------■-----
+               <span class="token keyword">:</span>         <span class="token keyword">:</span>     <span class="token keyword">:</span>    <span class="token keyword">:</span>        <span class="token keyword">:</span>
+               <span class="token keyword">:</span>         <span class="token keyword">:</span>     <span class="token keyword">:</span>    <span class="token keyword">:</span>        <span class="token keyword">:</span> 
+q<span class="token punctuation">(</span>t-2<span class="token punctuation">)</span><span class="token operator">=</span>0: ----<span class="token punctuation">[</span>H<span class="token punctuation">]</span>--------■-----<span class="token operator">|</span>--- <span class="token punctuation">..</span> ------<span class="token operator">|</span>-----
+                         <span class="token operator">|</span>     <span class="token operator">|</span>             <span class="token operator">|</span>
+q<span class="token punctuation">(</span>t-1<span class="token punctuation">)</span><span class="token operator">=</span>0: ----<span class="token punctuation">[</span>H<span class="token punctuation">]</span>--■-----<span class="token operator">|</span>-----<span class="token operator">|</span>--- <span class="token punctuation">..</span> ------<span class="token operator">|</span>-----
+                   <span class="token operator">|</span>     <span class="token operator">|</span>     <span class="token operator">|</span>             <span class="token operator">|</span>
+r2<span class="token operator">=</span><span class="token operator">|</span>u<span class="token operator">></span>:   --/----<span class="token punctuation">[</span>A0<span class="token punctuation">]</span>--<span class="token punctuation">[</span>A1<span class="token punctuation">]</span>--<span class="token punctuation">[</span>A2<span class="token punctuation">]</span>-- <span class="token punctuation">..</span> --<span class="token punctuation">[</span>A<span class="token punctuation">(</span>t-1<span class="token punctuation">)</span><span class="token punctuation">]</span>--
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>where <code>Aj</code> denotes \( U^{2^j}\). The effect of \( V\) on the first register is<br>$$<br>\begin{split}<br>|00\cdots 0\rangle<br>\longrightarrow &amp; \frac{|0\rangle + |1\rangle}{\sqrt{2}} \otimes \frac{|0\rangle + |1\rangle}{\sqrt{2}} \otimes\cdots \frac{|0\rangle + |1\rangle}{\sqrt{2}}\\<br>\longrightarrow &amp;<br>\frac{|0\rangle + e^{2\pi i\omega 2^0} |1\rangle}{\sqrt{2}} \otimes<br>\frac{|0\rangle + e^{2\pi i\omega 2^1} |1\rangle}{\sqrt{2}} \otimes\cdots<br>\frac{|0\rangle + e^{2\pi i\omega 2^{t-1}} |1\rangle}{\sqrt{2}}  \\<br>&#x3D;&amp; \frac{1}{\sqrt{2^t}}\sum_{j&#x3D;0}^{2^t-2}e^{2\pi i\omega j}|j\rangle<br>\equiv \phi<br>\end{split}<br>$$<br>Therefore, by applying the inverse QFT to \( \phi \), we can get \( |\tilde{\omega}\rangle \) in the first register.</p>
 <p>For each component \(|j\rangle\) in \(\phi\), the sequence of controlled-\( U\) operators in the subroutine \(V\) have the same effect with the following operation<br>$$<br>|j\rangle|u\rangle \to |j\rangle U^{j}|u\rangle,\qquad [▲▲▲]<br>$$<br>so usually, we use the controlled-\( U^j\) operation controlled by the first register with value \(|j\rangle\) to denote that tedious sequence of controlled-\( U\) operations above. Therefore, the quantum circuit for QPE can be expressed as</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">r1=|0&gt;:   --/-[H]----■----[invQFT]--[m]</span><br><span class="line">                     |</span><br><span class="line">r2=|u&gt;:   --/-------[Uj]----------------             </span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-bash"><code class="language-bash">r1<span class="token operator">=</span><span class="token operator">|</span>0<span class="token operator">></span>:   --/-<span class="token punctuation">[</span>H<span class="token punctuation">]</span>----■----<span class="token punctuation">[</span>invQFT<span class="token punctuation">]</span>--<span class="token punctuation">[</span>m<span class="token punctuation">]</span>
+                     <span class="token operator">|</span>
+r2<span class="token operator">=</span><span class="token operator">|</span>u<span class="token operator">></span>:   --/-------<span class="token punctuation">[</span>Uj<span class="token punctuation">]</span>----------------             
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <h2><span id="2-performance">2. Performance</span></h2><h2><span id="3-example-and-codes">3. Example and codes</span></h2><p>施工ing……先听首歌吧(ﾟ▽ﾟ)&#x2F;</p>
 <div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/music/suona.mp3" data-name="オオカミと少女" data-artist="鎖那" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/music/suona.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/music/suona.lrc" data-lrctype="3"></div>
 

@@ -39,14 +39,12 @@
   
 
   
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
-  
 
   
 <link rel="stylesheet" href="/css/style.css">
 
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 <body>
   <div class="root-container">
     
@@ -123,9 +121,9 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/QFT/">🏷️ QFT</a></li>
-  
     <li><a href="/tags/QPE/">🏷️ QPE</a></li>
+  
+    <li><a href="/tags/QFT/">🏷️ QFT</a></li>
   
     <li><a href="/tags/RSA/">🏷️ RSA</a></li>
   
@@ -173,8 +171,12 @@
 <p>Our goal is to achieve the value of \( r\), therefore by applying QPE to \( U\) and \( |u_s\rangle\), we can estimate \( r\) for any given accuracy \(t\). Now the problem turns to preparation of \( |u_s\rangle\). Actually, for a specified \(s\), we cannot prepare \( |u_s\rangle\) because that assumes we’ve already known \( r\) in advance. </p>
 <p>Notice that<br>$$<br>\begin{split}<br>&amp;\frac{1}{\sqrt{r}}\sum_{s&#x3D;0}^{r-1}|u_s\rangle \\<br>&#x3D; &amp;\frac{1}{r}\sum_{s&#x3D;0}^{r-1}\sum_{k&#x3D;0}^{r-1}e^{-2\pi isk&#x2F;r}|x^k\ \text{mod }N\rangle \\<br>&#x3D; &amp;\frac{1}{r}\sum_{k&#x3D;0}^{r-1}\bigg (<br>\sum_{s&#x3D;0}^{r-1}e^{-2\pi isk&#x2F;r}\bigg )|x^k\ \text{mod }N\rangle \\<br>&#x3D;&amp;\frac{1}{r}\sum_{k&#x3D;0}^{r-1}\delta_{k0}|x^k\ \text{mod }N\rangle \\<br>&#x3D;&amp; |1\rangle<br>\end{split}<br>$$<br>hence rather than prepare  \( |u_s\rangle\), by preparing the state \( |1\rangle\) in the second register of QPE, we’re able to construct a superposition of all the eigenstates \( \{|u_s\rangle\}\) .</p>
 <p>The quantum circuit of QPE is </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">r1=|0&gt;:   --/-[H]-----■------[invQFT]------[m]--</span><br><span class="line">                      |</span><br><span class="line">r2=|1&gt;:   --/--------[Uj]-----------------------   </span><br><span class="line"></span><br><span class="line">φ0                φ1      φ2          φ3     </span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">r1<span class="token operator">=</span><span class="token operator">|</span>0<span class="token operator">></span>:   --/-<span class="token punctuation">[</span>H<span class="token punctuation">]</span>-----■------<span class="token punctuation">[</span>invQFT<span class="token punctuation">]</span>------<span class="token punctuation">[</span>m<span class="token punctuation">]</span>--
+                      <span class="token operator">|</span>
+r2<span class="token operator">=</span><span class="token operator">|</span>1<span class="token operator">></span>:   --/--------<span class="token punctuation">[</span>Uj<span class="token punctuation">]</span>-----------------------   
 
+φ0                φ1      φ2          φ3     
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>Let’s see how the state changes in each step of the circuit.</p>
 <p>The state is initially prepared as<br>$$<br>\varphi_0 &#x3D; |0\rangle|1\rangle<br>$$</p>
 <p>After implementing \( t \) Hadamard gates to the first register, we get<br>$$<br>\varphi_1 &#x3D; \frac{1}{\sqrt{2^t}} \sum_{j&#x3D;0}^{2^t-1}|j\rangle|1\rangle<br>$$<br>The state before the inverse QFT is<br>$$<br>\begin{split}<br>\varphi_2 &#x3D; &amp; \frac{1}{\sqrt{2^t}} \sum_{j&#x3D;0}^{2^t-1}|j\rangle U^j|1\rangle \\<br>&#x3D; &amp; \frac{1}{\sqrt{2^t}} \sum_{j&#x3D;0}^{2^t-1}|j\rangle<br>\frac{1}{\sqrt{r}}\sum_{s&#x3D;0}^{r-1}e^{2\pi isj&#x2F;r} |u_s\rangle \\<br>&#x3D; &amp; \frac{1}{\sqrt{r2^t}} \sum_{j&#x3D;0}^{2^t-1}<br>\sum_{s&#x3D;0}^{r-1}e^{2\pi isj&#x2F;r}|j\rangle  |u_s\rangle,\qquad [▲]<br>\end{split}<br>$$<br>Since<br>$$<br>\begin{split}<br>U^j|1\rangle &#x3D; &amp; U^j \frac{1}{\sqrt{r}}\sum_{s&#x3D;0}^{r-1}|u_s\rangle \\<br>&#x3D;&amp; \frac{1}{\sqrt{r}}\sum_{s&#x3D;0}^{r-1}e^{2\pi isj&#x2F;r} |u_s\rangle \\<br>&#x3D;&amp; \frac{1}{\sqrt{r}}\sum_{s&#x3D;0}^{r-1}e^{2\pi isj&#x2F;r} \frac{1}{\sqrt{r}}<br>\sum_{p&#x3D;0}^{r-1}e^{-2\pi isp&#x2F;r}|x^p\ \text{mod }N\rangle\\<br>&#x3D;&amp; \frac{1}{r}\sum_{p&#x3D;0}^{r-1}\bigg ( \sum_{s&#x3D;0}^{r-1} e^{-2\pi is(p-j)&#x2F;r}\bigg )|x^p\ \text{mod }N\rangle\\<br>&#x3D;&amp; \frac{1}{r}\sum_{p&#x3D;0}^{r-1}r\delta_{pj} |x^p\ \text{mod }N\rangle \\<br>&#x3D; &amp; |x^j\ \text{mod }N\rangle<br>\end{split}<br>$$<br>\( \varphi_2\) can also be expressed as<br>$$<br>\varphi_2 &#x3D; \frac{1}{\sqrt{2^t}} \sum_{j&#x3D;0}^{2^t-1}|j\rangle |x^j\ \text{mod }N\rangle<br>$$<br>After implementing the inverse QFT to [▲], we get<br>$$<br>\varphi_3 &#x3D; \frac{1}{\sqrt{r}}\sum_{s&#x3D;0}^{r-1}|\tilde{s&#x2F;r}\rangle|u_s\rangle<br>$$<br>In the end, we measure the first register to get the estimation of \( s&#x2F;r\), which is rational number. </p>

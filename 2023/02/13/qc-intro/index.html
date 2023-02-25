@@ -39,14 +39,12 @@
   
 
   
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
-  
 
   
 <link rel="stylesheet" href="/css/style.css">
 
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 <body>
   <div class="root-container">
     
@@ -112,7 +110,7 @@
           
             <h2 class="title-sub-wrap new-date">
               <span>Updated on </span>
-              <time  class="article-updated" datetime="2023-02-25T12:10:51.110Z" itemprop="dateUpdated">2023-02-25</time>
+              <time  class="article-updated" datetime="2023-02-25T17:06:23.934Z" itemprop="dateUpdated">2023-02-26</time>
             </h2>
           
           
@@ -154,18 +152,13 @@
 <li><a href="#2-basics">2. Basics</a><ul>
 <li><a href="#21-qubit">2.1) Qubit</a></li>
 <li><a href="#22-quantum-gates-i">2.2) Quantum gates I</a></li>
-<li><a href="#22-quantum-gates-ii">2.2) Quantum gates II</a></li>
-<li><a href="#23-measurements">2.3) Measurements</a></li>
-<li><a href="#24-hello-quantum-world">2.4) “Hello, Quantum World!”</a></li>
+<li><a href="#23-quantum-gates-ii">2.3) Quantum gates II</a></li>
+<li><a href="#24-measurements">2.4) Measurements</a></li>
+<li><a href="#25-a-demo-circuit-with-quest-and-qiskit">2.5) A demo circuit with QuEST and Qiskit</a></li>
 </ul>
 </li>
 <li><a href="#3-deutsch-jozsa-algorithm">3. Deutsch-Jozsa Algorithm</a></li>
-<li><a href="#appendix-frequently-used-quantum-gates">Appendix: Frequently used quantum gates</a><ul>
-<li><a href="#i-one-qubit-gates">i) One-qubit gates</a></li>
-<li><a href="#ii-two-qubit-gates">ii) Two-qubit gates</a></li>
-<li><a href="#iii-three-qubit-gates">iii) Three-qubit gates</a></li>
-</ul>
-</li>
+<li><a href="#appendix-frequently-used-quantum-gates">Appendix: Frequently used quantum gates</a></li>
 </ul>
 <!-- tocstop -->
 
@@ -216,7 +209,7 @@
 <p>You may notice that, under the representation above, \(|0\rangle \) and \(|1\rangle \) can exactly compose a set of orthonormal (i.e. orthogonal and normalized) basis of the 2D space. Then what about other normalized vectors? Can we view them as some kind of bits as well? </p>
 <p>The answer is yes and that kind of bits are the so-called quantum bits, or <strong>qubits</strong>. For example,</p>
 <p>$$<br>|\psi\rangle &#x3D; \begin{bmatrix} \alpha \\ \beta \end{bmatrix} &#x3D;<br>\alpha |0\rangle + \beta |1\rangle<br>$$</p>
-<p>is a qubit, where \( \alpha,\beta\in\mathbb{C}\) and \( |\alpha|^2+|\beta|^2&#x3D;1\).</p>
+<p><a id="globalphase"></a><br>is a qubit, where \( \alpha,\beta\in\mathbb{C}\) and \( |\alpha|^2+|\beta|^2&#x3D;1\).</p>
 <ul>
 <li>A qubit is essentially a quantum state with two energy levels. In the language of quantum mechanics, the plus sign means <strong>superposition</strong>, i.e. \( |\psi\rangle\) is a superposition of \(|0\rangle \) and \(|1\rangle \).</li>
 <li>\( \alpha,\beta\) are complex numbers because the mathematics of quantum mechanics is based on the complex field.</li>
@@ -241,7 +234,10 @@
 <li>Though it’s fantastic to store numerous states, it’s not easy to extract or read all the information. As we’ll talk about in <a href="#measure">2.3) Measurements</a>, we can only get one of these \(2^n\)  states each time.</li>
 </ul>
 <p>Now let’s take a look at the visualized version of quantum computing, or <strong>quantum circuits</strong>. Just analogous to a classical circuit, we use each wire to denote one qubit. For example, the circuit </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|0&gt;: ----[H]----[Y]-----■----</span><br><span class="line">                        |</span><br><span class="line">|0&gt;: ------------------[X]----</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token operator">|</span>0<span class="token operator">></span>: ----<span class="token punctuation">[</span>H<span class="token punctuation">]</span>----<span class="token punctuation">[</span>Y<span class="token punctuation">]</span>-----■----
+                        <span class="token operator">|</span>
+<span class="token operator">|</span>0<span class="token operator">></span>: ------------------<span class="token punctuation">[</span>X<span class="token punctuation">]</span>----
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>includes two qubits that are initially set to be \( |0\rangle\). With gates from left to right, indices from up to down, we first act a Hadamard on the 0th qubit, then a \( Y\) gate. The last gate that involves two qubits is a \(\text{CNOT}\) gate which we’ll introduce in the next section.</p>
 <ul>
 <li>The circuits in my articles are typically ‘drew’ by typing codes, which looks ugly yet convenient. If you take aesthetics seriously, you may draw something like this:
@@ -251,34 +247,82 @@
     </figure>
   </li>
 </ul>
-<h3><span id="22-quantum-gates-ii">2.2) Quantum gates II</span></h3><p>Let’s first take a look at the \( \text{SWAP}\) gate which swap the position of two qubits. </p>
+<h3><span id="23-quantum-gates-ii">2.3) Quantum gates II</span></h3><p>Let’s first take a look at the \( \text{SWAP}\) gate which swap the position of two qubits. </p>
 <p>Suppose  \(   |\psi_1\rangle &#x3D; \alpha_1|0\rangle + \beta_1|1\rangle     \) and \(   |\psi_2\rangle &#x3D; \alpha_2|0\rangle + \beta_2|1\rangle    \), then<br>$$<br>|\Psi\rangle &#x3D; |\psi_1\rangle \otimes |\psi_2\rangle &#x3D;<br>\begin{bmatrix} \alpha_1 \\ \beta_1 \end{bmatrix}\otimes<br>\begin{bmatrix} \alpha_2 \\ \beta_2 \end{bmatrix} &#x3D;<br>\begin{bmatrix}<br>\alpha_1\alpha_2 \\ \alpha_1\beta_2  \\<br>\beta_1\alpha_2 \\ \beta_1\beta_2<br>\end{bmatrix}<br>$$<br>It can be verified that the matrix representation of the \( \text{SWAP}\) gate is<br>$$<br>\text{SWAP} \equiv<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>\end{bmatrix}<br>$$<br>since<br>$$<br>\text{SWAP} |\Psi\rangle &#x3D;<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>\end{bmatrix}<br>\begin{bmatrix}<br>\alpha_1\alpha_2 \\ \alpha_1\beta_2  \\<br>\beta_1\alpha_2 \\ \beta_1\beta_2<br>\end{bmatrix} &#x3D;<br>\begin{bmatrix}<br>\alpha_1\alpha_2 \\ \beta_1\alpha_2 \\<br>\alpha_1\beta_2  \\ \beta_1\beta_2<br>\end{bmatrix} &#x3D;<br>|\psi_2\rangle \otimes |\psi_1\rangle<br>$$</p>
 <p>On a quantum circuit, the \( \text{SWAP}\) gate is depicted as</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|0&gt;: ----x----</span><br><span class="line">         |</span><br><span class="line">|0&gt;: ----x----</span><br></pre></td></tr></table></figure>
-
-
-
-
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token operator">|</span>0<span class="token operator">></span>: ----x----
+         <span class="token operator">|</span>
+<span class="token operator">|</span>0<span class="token operator">></span>: ----x----
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>Another important class of two-qubit gates are the controlled unitary gates. Here we take \(\text{CNOT}\) gate as an example.</p>
 <p>\(\text{CNOT}\) gate involves one controlled qubit and one target qubit. If the controlled qubit equals \( |1\rangle\), perform \( X \) gate (the \(\text{NOT}\) gate) to the target qubit. Otherwise, do nothing.</p>
 <p>The matrix representation of the \(\text{CNOT}\) gate is<br>$$<br>\text{CNOT} \equiv<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>\end{bmatrix}  &#x3D;<br>\begin{bmatrix}<br>I &amp; 0 \\<br>0 &amp; X \\<br>\end{bmatrix},\qquad [▲]<br>$$<br>since<br>$$<br>\text{CNOT}_{j\to k}|0\rangle_j|a\rangle_k &#x3D;<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>\end{bmatrix}<br>\begin{bmatrix}<br>1-a \\<br>a \\<br>0 \\<br>0 \\<br>\end{bmatrix} &#x3D;<br>\begin{bmatrix}<br>1-a \\<br>a \\<br>0 \\<br>0 \\<br>\end{bmatrix}<br>$$</p>
 <p>$$<br>\text{CNOT}_{j\to k}|1\rangle_j|a\rangle_k &#x3D;<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>\end{bmatrix}<br>\begin{bmatrix}<br>0 \\<br>0 \\<br>1-a \\<br>a \\<br>\end{bmatrix} &#x3D;<br>\begin{bmatrix}<br>0 \\<br>0 \\<br>a \\<br>1-a \\<br>\end{bmatrix}<br>$$<br>where \( a\in\{ 0,1\} \) and \( j,k\) denote the indices of qubits. You may notice that we’ve preset the order of qubits when defining [▲]. If we let the \( k\)th qubit to be the controlled qubit, then the matrix representation in  [▲] should be correspondingly changed.</p>
 <p>We have a trick here. Since the circuit with a \(\text{CNOT}\) gate</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|0&gt;: ----[X]----</span><br><span class="line">          |</span><br><span class="line">|0&gt;: -----■-----</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token operator">|</span>0<span class="token operator">></span>: ----<span class="token punctuation">[</span>X<span class="token punctuation">]</span>----
+          <span class="token operator">|</span>
+<span class="token operator">|</span>0<span class="token operator">></span>: -----■-----
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>is equivalent to</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|0&gt;: ----x----■-----x----</span><br><span class="line">         |    |     |</span><br><span class="line">|0&gt;: ----x---[X]----x----</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token operator">|</span>0<span class="token operator">></span>: ----x-----■-----x----
+         <span class="token operator">|</span>     <span class="token operator">|</span>     <span class="token operator">|</span>
+<span class="token operator">|</span>0<span class="token operator">></span>: ----x----<span class="token punctuation">[</span>X<span class="token punctuation">]</span>----x----
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>where <code>■</code> denotes the controlled qubit, our new matrix of the \( \text{CNOT}\) gate is thus<br>$$<br>\text{CNOT} &#x3D;<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>\end{bmatrix}<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>\end{bmatrix}<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>\end{bmatrix}  &#x3D;<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; 0 \\<br>0 &amp; 0 &amp; 0 &amp; 1 \\<br>0 &amp; 0 &amp; 1 &amp; 0 \\<br>0 &amp; 1 &amp; 0 &amp; 0 \\<br>\end{bmatrix}<br>$$</p>
 <p>For a general controlled-\( U\) gate, or \( CU\) gate, it’s easy to check that the matrix representation is<br>$$<br>\text{CU} \equiv<br>\begin{bmatrix}<br>I &amp; 0 \\<br>0 &amp; U \\<br>\end{bmatrix}<br>$$</p>
-<h3><span id="23-measurements">2.3) Measurements</span></h3><p><a id="measure"></a><br>施工ing</p>
-<h3><span id="24-hello-quantum-world">2.4) “Hello, Quantum World!”</span></h3><h2><span id="3-deutsch-jozsa-algorithm">3. Deutsch-Jozsa Algorithm</span></h2><h2><span id="appendix-frequently-used-quantum-gates">Appendix: Frequently used quantum gates</span></h2><h3><span id="i-one-qubit-gates">i) One-qubit gates</span></h3><ol>
-<li><p>Hadamard gate:<br>$$<br>H \equiv<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}<br>1 &amp; 1 \\<br>1 &amp; -1<br>\end{bmatrix}<br>$$</p>
+<h3><span id="24-measurements">2.4) Measurements</span></h3><p><a id="measure"></a><br>Although a quantum state can be a superposition of many different states, experimentally, we can only observe one of these states by measurements. You may be confused about this property, so is Einstein. Anyway, this is how our universe behaves and quantum mechanics just provides a description of this by mathematics, which fits experiments perfectly. </p>
+<p>We only introduce the measurements on \( \sigma^z\) basis in this article, and a more general way of measurements can be described by the <strong>Positive Operator-Valued Measure (POVM) formalism</strong>. </p>
+<p>For a single qubit \( |\psi\rangle &#x3D; \alpha|0\rangle + \beta|1\rangle \), where \( |\alpha|^2+|\beta|^2&#x3D;1\), the state \( |\psi’\rangle\) after the measurement is described by<br>$$<br>\begin{split}<br>\text{prob}\bigg (|\psi’\rangle &#x3D; |0\rangle\bigg ) &#x3D; |\alpha|^2\\<br>\text{prob}\bigg (|\psi’\rangle &#x3D; |1\rangle\bigg ) &#x3D; |\beta|^2<br>\end{split}<br>$$<br>The process that \( |\psi\rangle\) becomes \( |\psi’\rangle\) is called <strong>collapsion</strong>, which happens instantaneously. </p>
+<p>In <a href="#globalphase">2.1) Qubit</a> we’ve said that the global phase of a quantum state is permitted, and for a state \( |\phi\rangle &#x3D; e^{i\theta} |\psi\rangle \), the global factor \( e^{i\theta}\) will be absorbed when calculating the value of \( |\alpha|^2\) and \( |\beta|^2\). </p>
+<p>The measurement would be more interesting when it comes to two qubits. Suppose we have<br>$$<br>|\Psi\rangle &#x3D; \gamma |01\rangle + \delta |10\rangle,\quad \text{where }|\gamma|^2 + |\delta|^2 &#x3D; 1,\quad \gamma\delta\ne 0<br>$$<br>If we measure one qubit and get the result \( |0\rangle\) (this chance is \( |\gamma|^2\)), then the other qubit must be \( |1\rangle\). Here the second qubit has no chocie and its result is utterly determined by the result of the first qubit. This kind of connection between two qubits or even among more qubits is called <strong>entanglement</strong>, which can emerge many exotic properties in quantum many-body systems. </p>
+<p>However, entanglement is not everywhere. Suppose<br>$$<br>|\Phi\rangle &#x3D; \alpha|00\rangle + \beta |01\rangle + \gamma |10\rangle + \delta|11\rangle,\quad \text{where }|\alpha|^2+|\beta|^2+|\gamma|^2+|\delta|^2&#x3D;1,\quad \alpha\beta\gamma\delta\ne 0<br>$$<br>We have the probability of \( |\alpha|^2 +|\beta|^2  \) to get \( |0\rangle\) if we measure the left qubit first, and the state becomes<br>$$<br>|\Phi’\rangle &#x3D; \frac{\alpha}{|\alpha|^2+|\beta|^2}|00\rangle +<br>\frac{\beta}{|\alpha|^2+|\beta|^2}|01\rangle<br>$$<br>In this case, the right qubit is still in the status of superposition, and we have to further measure it to make it collapse. </p>
+<p>The illustration of the measurements on three or more qubits is dropped here, which is obvious if you’ve understood the measurements on one and two qubits. In the next section, we’ll see how to creat a simple quantum circuit, and measure the qubits on our fake quantum computer with QuEST and Qiskit respectively. </p>
+<h3><span id="25-a-demo-circuit-with-quest-and-qiskit">2.5) A demo circuit with QuEST and Qiskit</span></h3><p>Our first quantum program is to realize</p>
+<pre class="line-numbers language-bash"><code class="language-bash">q0<span class="token operator">=</span><span class="token operator">|</span>0<span class="token operator">></span>: ----<span class="token punctuation">[</span>Rx<span class="token punctuation">(</span>pi/3<span class="token punctuation">)</span><span class="token punctuation">]</span>----■------■-----<span class="token punctuation">[</span>m<span class="token punctuation">]</span>-------------
+                          <span class="token operator">|</span>      <span class="token operator">|</span>
+q1<span class="token operator">=</span><span class="token operator">|</span>0<span class="token operator">></span>: -----------------<span class="token punctuation">[</span>X<span class="token punctuation">]</span>-----■---------<span class="token punctuation">[</span>m<span class="token punctuation">]</span>---------
+                                 <span class="token operator">|</span>
+q2<span class="token operator">=</span><span class="token operator">|</span>0<span class="token operator">></span>: -------<span class="token punctuation">[</span>H<span class="token punctuation">]</span>--------------<span class="token punctuation">[</span>X<span class="token punctuation">]</span>-------------<span class="token punctuation">[</span>m<span class="token punctuation">]</span>----
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><p><code>[m]</code> denotes measurement. The time order is from left to right, which means <code>q0</code> is the first qubit to be measured. </p>
 </li>
-<li><p>Pauli gates:<br>$$<br>X \equiv \begin{bmatrix}<br>0 &amp; 1 \\<br>1 &amp; 0<br>\end{bmatrix},\quad<br>Y \equiv \begin{bmatrix}<br>0 &amp; -i \\<br>i &amp; 0<br>\end{bmatrix},\quad<br>Z \equiv \begin{bmatrix}<br>1 &amp; 0 \\<br>0 &amp; -1<br>\end{bmatrix}<br>$$</p>
+<li><p><code>Rx(pi/3)</code>denotes the rotation gate \( R_x(\theta)\) with the rotated angle \( \theta&#x3D;\pi&#x2F;3\), whose definition is</p>
 </li>
-<li><p>Rotation gates:<br>$$<br>R_x(\theta) \equiv e^{-iX\theta&#x2F;2} &#x3D; \cos(\frac{\theta}{2})I - i\sin(\frac{\theta}{2})X&#x3D;<br>\begin{bmatrix}<br>\cos(\frac{\theta}{2}) &amp; -i\sin(\frac{\theta}{2}) \\<br>1 &amp; 0<br>\end{bmatrix},\quad<br>$$</p>
-</li>
-</ol>
-<h3><span id="ii-two-qubit-gates">ii) Two-qubit gates</span></h3><h3><span id="iii-three-qubit-gates">iii) Three-qubit gates</span></h3><div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.mp3" data-name="可愛くてごめん" data-artist="HoneyWorks/早見沙織" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.lrc" data-lrctype="3"></div>
+</ul>
+<p>$$<br>R_x(\theta) &#x3D;<br>\begin{bmatrix}<br>\cos\frac{\theta}{2} &amp; -i\sin\frac{\theta}{2} \\<br>-i\sin\frac{\theta}{2} &amp; \cos\frac{\theta}{2}<br>\end{bmatrix}<br>$$</p>
+<ul>
+<li>We also have a \( \text{CCNOT}\) gate here, which has two controlled qubits and one target qubit (i.e. a \( X\) gate will be performed on the target qubit if and only if both of the two target qubits equal \( |1\rangle\)). For more details, see <a href="appendix">Appendix: Frequently used quantum gates</a>.</li>
+</ul>
+<p>What the demo circuit does is<br>$$<br>\begin{split}<br>|0\rangle_2|0\rangle_1|0\rangle_0 \to &amp;<br>\bigg ( \frac{1}{\sqrt{2}}|0\rangle + \frac{1}{\sqrt{2}}|1\rangle\bigg )<br>\otimes<br>\bigg ( \frac{\sqrt{3}}{2}|00\rangle - \frac{i}{2}|01\rangle \bigg )<br>\\<br>\to &amp;<br>\bigg ( \frac{1}{\sqrt{2}}|0\rangle + \frac{1}{\sqrt{2}}|1\rangle\bigg )<br>\otimes<br>\bigg ( \frac{\sqrt{3}}{2}|00\rangle - \frac{i}{2}|11\rangle \bigg )<br>\\<br>&#x3D; &amp;<br>\frac{\sqrt{3}}{2\sqrt{2}}|000\rangle -<br>\frac{i}{2\sqrt{2}}|011\rangle +<br>\frac{\sqrt{3}}{2\sqrt{2}}|100\rangle -<br>\frac{i}{2\sqrt{2}}|111\rangle \\<br>\to &amp;<br>\frac{\sqrt{3}}{2\sqrt{2}}|000\rangle -<br>\frac{i}{2\sqrt{2}}|111\rangle +<br>\frac{\sqrt{3}}{2\sqrt{2}}|100\rangle -<br>\frac{i}{2\sqrt{2}}|011\rangle<br>\end{split}<br>$$<br>where the subscripts denote the indices of qubits. Therefore we have \( 1&#x2F;8\) chance to get \( |111\rangle\) or \( |011\rangle\), and \( 3&#x2F;8\) chance to get \( |000\rangle\) or \( |100\rangle\) in the end.</p>
+<p>QuEST codes for the demo circuit:</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>Qiskit codes for the demo circuit:</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">from</span> qiskit <span class="token keyword">import</span> QuantumCircuit<span class="token punctuation">,</span> Aer<span class="token punctuation">,</span> transpile
+<span class="token keyword">from</span> math <span class="token keyword">import</span> pi
+
+<span class="token keyword">def</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    circ <span class="token operator">=</span> QuantumCircuit<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+    circ<span class="token punctuation">.</span>rx<span class="token punctuation">(</span>pi<span class="token operator">/</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    circ<span class="token punctuation">.</span>h<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+    circ<span class="token punctuation">.</span>cx<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    circ<span class="token punctuation">.</span>ccx<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+    circ<span class="token punctuation">.</span>measure<span class="token punctuation">(</span>range<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> range<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    rep <span class="token operator">=</span> <span class="token number">10</span> <span class="token operator">**</span> <span class="token number">6</span>
+    backend_sim <span class="token operator">=</span> Aer<span class="token punctuation">.</span>get_backend<span class="token punctuation">(</span><span class="token string">'qasm_simulator'</span><span class="token punctuation">)</span>
+    job_sim <span class="token operator">=</span> backend_sim<span class="token punctuation">.</span>run<span class="token punctuation">(</span>transpile<span class="token punctuation">(</span>circ<span class="token punctuation">,</span> backend_sim<span class="token punctuation">)</span><span class="token punctuation">,</span> shots<span class="token operator">=</span>rep<span class="token punctuation">)</span>
+    result_sim <span class="token operator">=</span> job_sim<span class="token punctuation">.</span>result<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    counts <span class="token operator">=</span> result_sim<span class="token punctuation">.</span>get_counts<span class="token punctuation">(</span>circ<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>counts<span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    main<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2><span id="3-deutsch-jozsa-algorithm">3. Deutsch-Jozsa Algorithm</span></h2><p>施工ing~</p>
+<h2><span id="appendix-frequently-used-quantum-gates">Appendix: Frequently used quantum gates</span></h2><p><a id="appendix"></a><br>施工ing~</p>
+<div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.mp3" data-name="可愛くてごめん" data-artist="HoneyWorks/早見沙織" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blog_files/main/posts/qc/saori.lrc" data-lrctype="3"></div>
 
 
       </section>
