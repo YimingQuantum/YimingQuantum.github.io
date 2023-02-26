@@ -110,7 +110,7 @@
           
             <h2 class="title-sub-wrap new-date">
               <span>Updated on </span>
-              <time  class="article-updated" datetime="2023-02-26T12:59:17.910Z" itemprop="dateUpdated">2023-02-26</time>
+              <time  class="article-updated" datetime="2023-02-26T13:04:57.611Z" itemprop="dateUpdated">2023-02-26</time>
             </h2>
           
           
@@ -236,7 +236,7 @@
 <ul>
 <li>A complex matrix \(U \) is unitary, if \( U^{-1}&#x3D;U^{\dagger} \equiv (U^{T})^*\).</li>
 </ul>
-<p>We still start with a single qubit. In the last section, we’ve introduced the NOT gate<br>$$<br>U_N &#x3D; \begin{bmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix}<br>$$<br>which is unitary, and<br>$$<br>U_N|\psi\rangle &#x3D; U_N \big (\alpha|0\rangle+\beta|1\rangle\big ) &#x3D; \alpha|1\rangle + \beta|0\rangle<br>$$<br>In the context of quantum computing, it sounds a little weird if we continue to call it \(\text{NOT}\) gate, and we have a more common name for it.</p>
+<p>We still start with a single qubit. In the last section, we’ve introduced the \(\text{NOT}\) gate<br>$$<br>U_N &#x3D; \begin{bmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{bmatrix}<br>$$<br>which is unitary, and<br>$$<br>U_N|\psi\rangle &#x3D; U_N \big (\alpha|0\rangle+\beta|1\rangle\big ) &#x3D; \alpha|1\rangle + \beta|0\rangle<br>$$<br>In the context of quantum computing, it sounds a little weird if we continue to call it \(\text{NOT}\) gate, and we have a more common name for it.</p>
 <p>Since the <strong>Pauli matrices</strong> are defined by<br>$$<br>\sigma^x \equiv X \equiv \begin{bmatrix}<br>0 &amp; 1 \\<br>1 &amp; 0<br>\end{bmatrix},\quad<br>\sigma^y \equiv Y \equiv \begin{bmatrix}<br>0 &amp; -i \\<br>i &amp; 0<br>\end{bmatrix},\quad<br>\sigma^z \equiv Z \equiv \begin{bmatrix}<br>1 &amp; 0 \\<br>0 &amp; -1<br>\end{bmatrix}<br>$$<br>\(U_N\) is called and replaced by \(\sigma^x \) gate or \(X \) gate.</p>
 <p><strong>Hadamard gate</strong> is another frequently-used one-qubit gate, which is defined as<br>$$<br>H \equiv<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}<br>1 &amp; 1 \\<br>1 &amp; -1<br>\end{bmatrix}<br>$$<br>It’s easy to verified that<br>$$<br>\begin{split}<br>&amp;H|0\rangle &#x3D; \frac{1}{\sqrt{2}}\bigg( |0\rangle + |1\rangle \bigg )\\<br>\end{split}<br>$$<br>If we have two qubits and perform the \(H\) gate on each of them, we’ll get<br>$$<br>\begin{split}<br>\bigg (H|0\rangle \bigg ) \otimes \bigg (H|0\rangle\bigg ) &#x3D; &amp; \frac{1}{\sqrt{2}}\bigg( |0\rangle + |1\rangle \bigg ) \otimes \frac{1}{\sqrt{2}}\bigg( |0\rangle + |1\rangle \bigg )  \\<br>&#x3D; &amp; \frac{1}{2}\bigg(<br>|0\rangle\otimes|0\rangle + |0\rangle\otimes|1\rangle +<br>|1\rangle\otimes|0\rangle + |1\rangle\otimes|1\rangle<br>\bigg) \\<br>\equiv &amp;<br>\frac{1}{2}\bigg(<br>|0\rangle|0\rangle + |0\rangle|1\rangle +<br>|1\rangle|0\rangle + |1\rangle|1\rangle<br>\bigg)<br>\\<br>\equiv &amp; \frac{1}{2}\bigg(<br>|00\rangle + |01\rangle + |10\rangle + |11\rangle<br>\bigg)<br>\end{split}<br>$$<br>Therefore, if we have \( n\) qubits, after acting Hadamard gate to each of the qubits, we can generate a superposition of all possible states under \(n\) qubits. Since each of the state represents a \( n\)-bit binary number, to store these \(2^n\) integers, we only need \(n\) qubits, which is a exponentially small number compared with the classical bits.</p>
 <ul>
