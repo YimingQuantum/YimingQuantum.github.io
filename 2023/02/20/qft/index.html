@@ -24,7 +24,7 @@
 
   
 
-  <title>Quantum Fourier Transform | Q-Grus</title>
+  <title>Quantum Monte Carlo | Q-Grus</title>
 
   
 
@@ -33,7 +33,11 @@
   
 
    
-    <!--mathjax latex数学公式显示支持-->
+
+
+
+
+	  <!--mathjax latex数学公式显示支持-->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   
@@ -102,7 +106,7 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Quantum Fourier Transform</h1>
+          <h1 class="title-wrap">Quantum Monte Carlo</h1>
           <h2 class="title-sub-wrap">
             <span>Posted on </span>
             <time  class="article-date" datetime="2023-02-20T03:34:07.000Z" itemprop="datePublished">2023-02-20</time>
@@ -110,18 +114,18 @@
           
             <h2 class="title-sub-wrap new-date">
               <span>Updated on </span>
-              <time  class="article-updated" datetime="2023-02-26T12:16:35.228Z" itemprop="dateUpdated">2023-02-26</time>
+              <time  class="article-updated" datetime="2023-03-02T14:22:05.184Z" itemprop="dateUpdated">2023-03-02</time>
             </h2>
           
           
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/Quantum-Algorithms/">📒 Quantum-Algorithms</a></li>
+    <li><a href="/categories/QMC/">📒 QMC</a></li>
   
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/QFT/">🏷️ QFT</a></li>
+    <li><a href="/tags/personalNotes/">🏷️ personalNotes</a></li>
   
 </ul>
         </div>
@@ -148,46 +152,35 @@
         <!-- toc -->
 
 <ul>
-<li><a href="#1-algorithm">1. Algorithm</a></li>
-<li><a href="#2-performance">2. Performance</a></li>
-<li><a href="#3-example-and-codes">3. Example and codes</a></li>
+<li><a href="#1-stochastic-calculation-for-integrals">1. Stochastic calculation for integrals</a><ul>
+<li><a href="#a-calculating-pi-by-sampling">a) Calculating \( \pi\) by sampling</a></li>
+</ul>
+</li>
 </ul>
 <!-- tocstop -->
 
-<h2><span id="1-algorithm">1. Algorithm</span></h2><p>Many quantum algorithms that achieve quantum advantage take <strong>Quantum Fourier Transform (QFT)</strong> as their subroutine, which is a quantum version of the <strong>Discrete Fourier Transform (DFT)</strong>. </p>
-<p>For \(n\) qubits, what QFT does is<br>$$<br>|j\rangle\longrightarrow\frac{1}{\sqrt{2^n}}\sum_{k&#x3D;0}^{2^n-1}e^{2\pi ijk&#x2F;2^n}|k\rangle,\qquad \text{[▲]}<br>$$<br>where \(  \{ |j\rangle \}  \) and  \(  \{ |k\rangle \}  \) are two different sets of orthonormal basis. </p>
-<p>To realize QFT on quantum circuits, consider the binary representation of \( k\), i.e.<br>$$<br>k &#x3D; \overline{k_{n-1}k_{n-2}\cdots k_0} &#x3D; 2^{n-1}k_{n-1} + 2^{n-2}k_{n-2} + \cdots 2^0k_0<br>$$<br>then<br>$$<br>\frac{k}{2^n} &#x3D; 2^{-1}k_{n-1} + 2^{-2}k_{n-2} + \cdots 2^{-n}k_0 &#x3D; \sum_{l&#x3D;1}^n2^{-l}k_{n-l}<br>$$<br>and [▲] can be rewritten as<br>$$<br>\begin{split}<br>|j\rangle \longrightarrow&amp;\frac{1}{\sqrt{2^n}}\sum_{k&#x3D;0}^{2^n-1}e^{2\pi ijk&#x2F;2^n}|k\rangle \\<br>&#x3D;&amp;\frac{1}{\sqrt{2^n}}\sum_{k_{n-1}&#x3D;0}^1\sum_{k_{n-2}&#x3D;0}^1\cdots \sum_{k_0&#x3D;0}^1 e^{2\pi ij \sum_{l&#x3D;1}^n2^{-l}k_{n-l}}|\overline{k_{n-1}k_{n-2}\cdots k_0}\rangle \\<br>&#x3D;&amp;\frac{1}{\sqrt{2^n}} \otimes_{l&#x3D;1}^n<br>\bigg ( \sum_{k_{n-l}&#x3D;0}^1 e^{2\pi ij 2^{-l}k_{n-l}}|k_{n-l}\rangle \bigg ) \\<br>&#x3D;&amp; \frac{1}{\sqrt{2^n}} \otimes_{l&#x3D;1}^n<br>\bigg (<br>|0\rangle + e^{2\pi ij2^{-l}} |1\rangle<br>\bigg ),\qquad \text{[▲▲]}<br>\end{split}<br>$$<br>Similarly, considering the binary form of \( j\), i.e.<br>$$<br>j &#x3D; 2^{n-1}j_{n-1} + 2^{n-2}j_{n-2} + \cdots 2^0j_0<br>$$<br>then for \( l&#x3D;1\), we have<br>$$<br>\frac{j}{2^l} &#x3D; 2^{n-2}j_{n-1} + 2^{n-3}j_{n-2} + \cdots 2^{-1}j_0<br>$$<br>thus<br>$$<br>e^{2\pi ij2^{-l}} &#x3D; e^{2\pi i \overline{0.j_0}}<br>$$<br>Similarly, for \( l&#x3D;2\), we have<br>$$<br>e^{2\pi ij2^{-l}} &#x3D; e^{2\pi i \overline{0.j_1j_0}}<br>$$<br>hence [▲▲] can be rewritten as<br>$$<br>\frac{1}{\sqrt{2^n}} \bigg (|0\rangle + e^{2\pi i\overline{0.j_0}}|1\rangle \bigg ) \otimes<br>\bigg (|0\rangle + e^{2\pi i\overline{0.j_1j_0}}|1\rangle \bigg ) \otimes \cdots<br>\bigg (|0\rangle + e^{2\pi i\overline{0.j_{n-1}j_n\cdots j_0}}|1\rangle \bigg )<br>$$<br>Notice that these \(n \) qubits are not entangled, thus we can generate each term above one by one. For simplicity, we now consider the QFT for 3 qubits, i.e.<br>$$<br>|\overline{j_2j_1j_0}\rangle \to<br>\frac{|0\rangle + e^{2\pi i\overline{0.j_0}}|1\rangle}{\sqrt{2}} \otimes<br>\frac{|0\rangle + e^{2\pi i\overline{0.j_1j_0}}|1\rangle}{\sqrt{2}}  \otimes<br>\frac{|0\rangle + e^{2\pi i\overline{0.j_2j_1j_0}}|1\rangle}{\sqrt{2}}<br>$$<br>It will be convenient if we swap the 0th and the 2nd qubits to get \( |\overline{j_0j_1j_2}\rangle \), therefore the first term can be easily constructed with a Hadamard gate.</p>
-<p>The phase factors of \( |1\rangle\) in the second and third term can be generated by some rotation gate \(R_z(\theta) \) since<br>$$<br>R_z(\theta) &#x3D; e^{-Z\theta&#x2F;2} &#x3D;<br>\begin{bmatrix}<br>e^{-i\theta&#x2F;2} &amp; 0 \\<br>0 &amp; e^{i\theta&#x2F;2}<br>\end{bmatrix} &#x3D;  e^{-i\theta&#x2F;2}<br>\begin{bmatrix}<br>1 &amp; 0 \\<br>0 &amp; e^{i\theta}<br>\end{bmatrix}<br>$$<br>Define<br>$$<br>R_k &#x3D; R_z(\frac{2\pi}{2^k}) &#x3D; \begin{bmatrix}<br>1 &amp; 0 \\<br>0 &amp; e^{2\pi i&#x2F;2^k}<br>\end{bmatrix}<br>$$<br>where the global factor doesn’t matter.</p>
-<p>Foe the second term, if \( j_0&#x3D;0\), the circuit is similar to the first term, and if \( j_0&#x3D;1\), we should add the phase factor \( e^{2\pi i\overline{0.0j_0}} \) to \( |1\rangle \), which means the rotation is controlled by the value of \( j_0\). The third term can be similarly constructed.</p>
-<p>Therefore, the final quantum circuit of the 3-qubit QFT  is</p>
-<pre class="line-numbers language-bash"><code class="language-bash">q0<span class="token operator">=</span>j0: ----x--<span class="token punctuation">[</span>H<span class="token punctuation">]</span>--<span class="token punctuation">[</span>R2<span class="token punctuation">]</span>--<span class="token punctuation">[</span>R3<span class="token punctuation">]</span>--------------------
-           <span class="token operator">|</span>         <span class="token operator">|</span>     <span class="token operator">|</span>
-q1<span class="token operator">=</span>j1: ----<span class="token operator">|</span>---------■-----<span class="token operator">|</span>---<span class="token punctuation">[</span>H<span class="token punctuation">]</span>--<span class="token punctuation">[</span>R2<span class="token punctuation">]</span>---------
-           <span class="token operator">|</span>               <span class="token operator">|</span>          <span class="token operator">|</span>
-q2<span class="token operator">=</span>j2: ----x---------------■----------■---<span class="token punctuation">[</span>H<span class="token punctuation">]</span>----
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2><span id="2-performance">2. Performance</span></h2><p>施工ing……</p>
-<h2><span id="3-example-and-codes">3. Example and codes</span></h2><p>施工ing……先听首歌吧(ﾟ▽ﾟ)&#x2F;</p>
-<div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blogData/main/musics/onimai2.mp3" data-name="アイデン貞貞メルトダウン" data-artist="えなこ/P丸様" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blogData/main/musics/onimai.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blogData/main/musics/suona.lrc" data-lrctype="3"></div>
+<h2><span id="1-stochastic-calculation-for-integrals">1. Stochastic calculation for integrals</span></h2><h3><span id="a-calculating-pi-by-sampling">a) Calculating \( \pi\) by sampling</span></h3><p>Considering a unit circle at the center of a square with length of two units, then we can achieve the value of $\pi$ from<br>$$<br>\frac{S_{\text{circle}}}{S_{\text{sqaure}}} &#x3D; \frac{\pi}{4} &#x3D; \frac{\int_{\text{circle}}dxdy}{\int_{\text{square}}dxdy} &#x3D; \int_{\text{square}}f(x,y)\mathcal{P}(x,y)dxdy<br>$$<br>where we define the function<br>$$<br>\begin{split}<br>&amp;f(x,y) &#x3D; 1,\quad\text{if} (x,y)\text{ is inside the circle}\\<br>&amp;f(x,y) &#x3D; 0,\quad\text{else}<br>\end{split}<br>$$<br>and a probability distribution<br>$$<br>\mathcal{P}(x) &#x3D; \frac{1}{\int_{\text{square}}dxdy}<br>$$</p>
+<p>Now the problem becomes calculating the expected value of $f(x,y)$ over the probability distribution $\mathcal{P}(x,y)$. According to the <strong>Weak Law of Large Numbers</strong>, we know that<br>$$<br>\langle f(x,y)\rangle \approx \frac{1}{N}\sum_jf(x_j,y_j)<br>$$<br>and this estimation is accurate and unbiased when $N\to\infty$.</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">double</span> <span class="token function">piCalculator</span><span class="token punctuation">(</span><span class="token keyword">int</span> N<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    mt19937_64 eng<span class="token punctuation">{</span>random_device<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    uniform_real_distribution<span class="token operator">&lt;</span><span class="token keyword">double</span><span class="token operator">></span> <span class="token function">dstrb</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> N<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">double</span> x <span class="token operator">=</span> <span class="token function">dstrb</span><span class="token punctuation">(</span>eng<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">double</span> y <span class="token operator">=</span> <span class="token function">dstrb</span><span class="token punctuation">(</span>eng<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">double</span> r <span class="token operator">=</span> <span class="token function">sqrt</span><span class="token punctuation">(</span>x <span class="token operator">*</span> x <span class="token operator">+</span> y <span class="token operator">*</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>r <span class="token operator">&lt;=</span> <span class="token number">1</span><span class="token punctuation">)</span> sum <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token number">4</span> <span class="token operator">*</span> sum <span class="token operator">/</span> <span class="token keyword">double</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>施工ing……先听首歌吧(ﾟ▽ﾟ)&#x2F;</p>
+<div class="aplayer-box" data-url="https://raw.githubusercontent.com/CathanAtaegina/blogData/main/musics/onimai2.mp3" data-name="アイデン貞貞メルトダウン" data-artist="えなこ/P丸様" data-cover="https://raw.githubusercontent.com/CathanAtaegina/blogData/main/musics/onimai.jpg" data-lrc="https://raw.githubusercontent.com/CathanAtaegina/blogData/main/musics/onimai.lrc" data-lrctype="3"></div>
       </section>
 
       
       
         <nav class="article-nav">
-          
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2023/02/21/qpe/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">Quantum Phase Estimation</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
           
           
             <div class="article-nav-item layout-padding">
@@ -240,19 +233,19 @@ q2<span class="token operator">=</span>j2: ----x---------------■----------■-
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>5</span>
+        <span>3</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        2
+        3
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
 </svg>
-        4
+        2
       </div>
     </div>
   </div>
@@ -285,14 +278,20 @@ q2<span class="token operator">=</span>j2: ----x---------------■----------■-
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/Quantum-Algorithms/">
-            Quantum-Algorithms (4)
+          <a href="/categories/QMC/">
+            QMC (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/Uncategorized/">
             Uncategorized (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Quantum-Algorithms/">
+            Quantum-Algorithms (1)
           </a>
         </li>
       
@@ -309,7 +308,7 @@ q2<span class="token operator">=</span>j2: ----x---------------■----------■-
   </div>
   <div class="widget-body">
     <div class="tags-cloud">
-      <a href="/tags/QFT/" style="font-size: 20px;" class="tags-cloud-10">QFT</a> <a href="/tags/QPE/" style="font-size: 15px;" class="tags-cloud-5">QPE</a> <a href="/tags/RSA/" style="font-size: 10px;" class="tags-cloud-0">RSA</a> <a href="/tags/forBeginners/" style="font-size: 10px;" class="tags-cloud-0">forBeginners</a>
+      <a href="/tags/forBeginners/" style="font-size: 10px;" class="tags-cloud-0">forBeginners</a> <a href="/tags/personalNotes/" style="font-size: 10px;" class="tags-cloud-0">personalNotes</a>
     </div>
   </div>
 </section>
