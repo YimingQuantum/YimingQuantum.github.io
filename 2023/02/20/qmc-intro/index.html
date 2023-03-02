@@ -114,7 +114,7 @@
           
             <h2 class="title-sub-wrap new-date">
               <span>Updated on </span>
-              <time  class="article-updated" datetime="2023-03-02T14:40:26.484Z" itemprop="dateUpdated">2023-03-02</time>
+              <time  class="article-updated" datetime="2023-03-02T15:20:24.434Z" itemprop="dateUpdated">2023-03-02</time>
             </h2>
           
           
@@ -160,7 +160,7 @@
 <!-- tocstop -->
 
 <h2><span id="1-stochastic-calculation-for-integrals">1. Stochastic calculation for integrals</span></h2><h3><span id="a-calculating-pi-by-sampling">a) Calculating \( \pi\) by sampling</span></h3><p>Considering a unit circle at the center of a square with length of two units, then we can achieve the value of \(\pi\) from<br>$$<br>\frac{S_{\text{circle}}}{S_{\text{sqaure}}} &#x3D; \frac{\pi}{4} &#x3D; \frac{\int_{\text{circle}}dxdy}{\int_{\text{square}}dxdy} &#x3D; \int_{\text{square}}f(x,y)\mathcal{P}(x,y)dxdy<br>$$<br>where we define the function<br>$$<br>\begin{split}<br>&amp;f(x,y) &#x3D; 1,\quad\text{if} (x,y)\text{ is inside the circle}\\<br>&amp;f(x,y) &#x3D; 0,\quad\text{else}<br>\end{split}<br>$$<br>and a probability distribution<br>$$<br>\mathcal{P}(x) &#x3D; \frac{1}{\int_{\text{square}}dxdy}<br>$$</p>
-<p>Now the problem becomes calculating the expected value of $f(x,y)$ over the probability distribution \(\mathcal{P}(x,y)\). According to the <strong>Weak Law of Large Numbers</strong>, we know that<br>$$<br>\langle f(x,y)\rangle \approx \frac{1}{N}\sum_jf(x_j,y_j)<br>$$<br>This estimation is accurate and unbiased.</p>
+<p>Now the problem becomes calculating the expected value of \(f(x,y)\)over the probability distribution \(\mathcal{P}(x,y)\). According to the <strong>Weak Law of Large Numbers</strong>, we know that<br>$$<br>\langle f(x,y)\rangle \approx \frac{1}{N}\sum_jf(x_j,y_j)<br>$$<br>This estimation is accurate and unbiased.</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">double</span> <span class="token function">piCalculator</span><span class="token punctuation">(</span><span class="token keyword">int</span> N<span class="token punctuation">)</span><span class="token punctuation">{</span>
     mt19937_64 eng<span class="token punctuation">{</span>random_device<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
     uniform_real_distribution<span class="token operator">&lt;</span><span class="token keyword">double</span><span class="token operator">></span> <span class="token function">dstrb</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -278,6 +278,12 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
+          <a href="/categories/Quantum-Algorithms/">
+            Quantum-Algorithms (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/QMC/">
             QMC (1)
           </a>
@@ -286,12 +292,6 @@
         <li class="categorys-list-item">
           <a href="/categories/Uncategorized/">
             Uncategorized (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/Quantum-Algorithms/">
-            Quantum-Algorithms (1)
           </a>
         </li>
       
